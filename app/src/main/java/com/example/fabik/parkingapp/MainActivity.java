@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
         et1 = findViewById(R.id.etPlaca);
         et2 = findViewById(R.id.etHoraIngreso);
 
+        //Esto es una prueba
+
 
 
 
