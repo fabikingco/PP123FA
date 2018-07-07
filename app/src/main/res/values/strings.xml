@@ -3,4 +3,11 @@
     <string name="str_horaIngreso">Hora de Ingreso</string>
     <string name="str_placa">Placa del Vehiculo</string>
     <string name="str_ingresoVehiculo">Ingreso de Vehiculos</string>
+    <string name="str_PARQUEADERO">PARQUEADERO</string>
+    <string name="str_INGRESARvEHICULOS">INGRESAR VEHICULOS</string>
+    <string name="str_SACARvEHICULOS">SACAR VEHICULOS</string>
+    <string name="str_LISTARvEHICULOS">LISTAR VEHICULOS</string>
+    <string name="str_LISTADOtOTAL">LISTADO TOTAL</string>
+    <string name="str_placaEjemplo">XXX-123</string>
+    <string name="str_FACTURAR">FACTURAR</string>
 </resources>

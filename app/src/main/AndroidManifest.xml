@@ -16,7 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuPrincipal"></activity>
+        <activity android:name=".MenuPrincipal" />
+        <activity android:name=".IngresarVehiculos" />
+        <activity android:name=".SacarVehiculos" />
+        <activity android:name=".ListarVehiculos" />
+        <activity android:name=".ListadoTotal"></activity>
     </application>
 
 </manifest>
