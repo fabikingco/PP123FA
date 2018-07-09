@@ -1,5 +1,6 @@
 package com.example.fabik.parkingapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,14 +14,22 @@ public class MenuPrincipal extends AppCompatActivity {
     }
 
     public void onClic_Ingresar(View view) {
+        Intent intent = new Intent(this, IngresarVehiculos.class);
+        startActivity(intent);
     }
 
     public void onClic_Sacar(View view) {
+        Intent intent = new Intent(this, SacarVehiculos.class);
+        startActivity(intent);
     }
 
     public void onClic_Listar(View view) {
+        Intent intent = new Intent(this, ListarVehiculos.class);
+        startActivity(intent);
     }
 
     public void onClic_ListadoTotal(View view) {
+        Intent intent = new Intent(this, ListadoTotal.class);
+        startActivity(intent);
     }
 }
