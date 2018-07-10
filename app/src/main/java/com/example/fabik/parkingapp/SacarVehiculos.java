@@ -1,5 +1,8 @@
 package com.example.fabik.parkingapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -33,7 +36,7 @@ public class SacarVehiculos extends AppCompatActivity {
     }
 
     public void salida (View view){
-        placa = findViewById(R.id.et_i_Placa);
+        placa = findViewById(R.id.et_s_Placa);
         Global.Placa = placa.getText().toString();
 
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"administracion", null, 1);
@@ -47,6 +50,7 @@ public class SacarVehiculos extends AppCompatActivity {
             cursor.moveToFirst();
             Global.FechaIngreso = cursor.getString(0);
             Global.Tipo = cursor.getString(1);
+            Toast.makeText(getApplicationContext(),"Placa encontrada",Toast.LENGTH_LONG).show();
             bd.close();
 
         }catch (Exception e){
@@ -54,16 +58,54 @@ public class SacarVehiculos extends AppCompatActivity {
             bd.close();
         }
 
-        getDateAsTime(Global.FechaIngreso); //Llamo al metodo
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Ingreso de Vehiculo");
+        builder.setMessage("Vehiculo "+Global.Placa+" encontrado, ingreso "+Global.FechaIngreso+" y es de tipo "+Global.Tipo);
+        builder.setPositiveButton("Confirmar",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String outputPattern = "yyyy:MM:dd HH:mm:ss";
+                        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+                        Calendar c = Calendar.getInstance();
+                        Global.FechaSalida = outputFormat.format(c.getTime());
+
+                        System.out.println("Fecha Ingreso "+Global.FechaIngreso);
+
+                        System.out.println("Fecha Salida "+Global.FechaSalida);
+
+                        getDateAsTime();
+
+                        System.out.println("Tiempo "+Global.TiempoTotal);
+
+
+                    }
+                });
+        builder.setNegativeButton("Cancelar",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        Intent intent = new Intent(SacarVehiculos.this, SacarVehiculos.class);
+                        startActivity(intent);
+                    }
+                });
+
+        builder.show();
+
+        //getDateAsTime(Global.FechaIngreso); //Llamo al metodo
     }
 
-    private String getDateAsTime(String datePrev) {
+    private String getDateAsTime() {
         Global.TiempoTotal = "";
         long day = 0, diff = 0;
+
         String outputPattern = "yyyy:MM:dd HH:mm:ss";
         SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
-        Calendar c = Calendar.getInstance();
+/*        Calendar c = Calendar.getInstance();
         Global.FechaSalida = outputFormat.format(c.getTime());
+        */
+
         try {
             Date date1 = outputFormat.parse(Global.FechaIngreso);
             Date date2 = outputFormat.parse(Global.FechaSalida);
