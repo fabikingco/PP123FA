@@ -1,9 +1,18 @@
 package com.example.fabik.parkingapp;
 
+import android.app.AlertDialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
+
+import com.example.fabik.parkingapp.BD_Utilidades.Utilidades;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,98 +28,78 @@ import java.util.concurrent.TimeUnit;
 
 public class IngresarVehiculos extends AppCompatActivity {
 
-    TextView tv1;
-    private static String primera, segunda, daysAsTime, datePrev;
-    private static Date startDate, endDate;
+    EditText placa;
+    private RadioButton rbAuto, rbMoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingresar_vehiculos);
 
-        setTitle("Ingresar Vehoculos");
+        setTitle("Ingresar Vehiculos");
 
-        tv1 = findViewById(R.id.tvHora);
-
-        Date anotherCurDate = new Date();
-        SimpleDateFormat formatime = new SimpleDateFormat("HH:mm:ss");
-        String formatedTime = formatime.format(anotherCurDate);
-
-        tv1.setText(formatedTime);
-
-        //tv1.setText(String.valueOf(hora)+":"+String.valueOf(minute)+":"+String.valueOf(segundos));
+        rbAuto = findViewById(R.id.rbAuto);
+        rbMoto = findViewById(R.id.rbMoto);
 
     }
 
     public void Nuevo_Ingreso(View view) {
 
-        Date anotherCurDate = new Date();
-        startDate = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy, MMMM, d, HH, mm, ss");
-        SimpleDateFormat formatime = new SimpleDateFormat("HH:mm:ss");
+        placa = findViewById(R.id.et_i_Placa);
+        Global.Placa = placa.getText().toString();
 
-        String formattedDateString = formatter.format(anotherCurDate);
-        String formatedTime = formatime.format(anotherCurDate);
+        if (rbAuto.isChecked()==true){
+            Global.Tipo = "Automovil";
+        } else
+        if (rbMoto.isChecked()==true) {
+            Global.Tipo = "Motocicleta";
+        }
 
-        String outputPattern = "yyyy:MM:dd HH:mm:ss";
-        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
-        Calendar c = Calendar.getInstance();
-        datePrev = outputFormat.format(c.getTime());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Ingreso de Vehiculo");
+        builder.setMessage("Esta seguro de ingresar "+Global.Tipo+" con placa "+Global.Placa);
+        builder.setPositiveButton("Confirmar",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String outputPattern = "yyyy:MM:dd HH:mm:ss";
+                        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+                        Calendar c = Calendar.getInstance();
+                        Global.FechaIngreso = outputFormat.format(c.getTime());
 
-        tv1.setText(datePrev);
+                        System.out.println("Prueba "+Global.FechaIngreso);
 
+                        BaseDeDatos();
+                    }
+                });
+        builder.setNegativeButton("Cancelar",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        Intent intent = new Intent(IngresarVehiculos.this, IngresarVehiculos.class);
+                        startActivity(intent);
+                    }
+                });
 
-        System.out.println("2. "+anotherCurDate);
-        System.out.println("3. "+formattedDateString);
-        System.out.println("4. "+formatedTime);
-        System.out.println("Prueba "+datePrev);
-
-        //long hours = ChronoUnit.HOURS.between(oldDate, newDate);
-        //long minutes = ChronoUnit.MINUTES.between(oldDate, newDate);
-
+        builder.show();
     }
 
-    public void Prueba(View view){
+    private void BaseDeDatos (){
+        AdminSQLiteOpenHelper admin= new AdminSQLiteOpenHelper(this, "administracion", null,1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
 
-        Date currentTime = Calendar.getInstance().getTime();
+        ContentValues insetar = new ContentValues();
+        insetar.put(Utilidades.CAMPO_PLACA, Global.Placa);
+        insetar.put(Utilidades.CAMPO_FECHA_ING, Global.FechaIngreso);
+        insetar.put(Utilidades.CAMPO_TIPO, Global.Tipo);
 
-        System.out.println("5. "+currentTime);
-
-        endDate = new Date();
-
-        long diff=(this.endDate.getTime()-this.startDate.getTime())/(60*60 * 1000);
-
-        getDateAsTime(datePrev);
-
-        System.out.println("6. "+daysAsTime);
-
-        tv1.setText(daysAsTime);
+        bd.insert(Utilidades.TABLA_1, null, insetar);
+        bd.close();
     }
 
-    private String getDateAsTime(String datePrev) {
-        daysAsTime = "";
-        long day = 0, diff = 0;
-        String outputPattern = "yyyy:MM:dd HH:mm:ss";
-        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
-        Calendar c = Calendar.getInstance();
-        String dateCurrent = outputFormat.format(c.getTime());
-        try {
-            Date  date1 = outputFormat.parse(datePrev);
-            Date date2 = outputFormat.parse(dateCurrent);
-            diff = date2.getTime() - date1.getTime();
-            day = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        if (day == 0) {
-            long hour = TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS);
-            if (hour == 0)
-                daysAsTime = String.valueOf(TimeUnit.MINUTES.convert(diff, TimeUnit.MILLISECONDS)).concat(" minutes ago");
-            else
-                daysAsTime = String.valueOf(hour).concat(" hours ago");
-        } else {
-            daysAsTime = String.valueOf(day).concat(" days ago");
-        }
-        return daysAsTime;
+    public void Sacar(View view) {
+        Intent intent = new Intent(this, SacarVehiculos.class);
+        startActivity(intent);
     }
 }

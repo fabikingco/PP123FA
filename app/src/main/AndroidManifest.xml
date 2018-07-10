@@ -17,10 +17,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".IngresarVehiculos" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".SacarVehiculos" />
         <activity android:name=".ListarVehiculos" />
-        <activity android:name=".ListadoTotal"></activity>
+        <activity android:name=".ListadoTotal">
+
+        </activity>
     </application>
 
 </manifest>

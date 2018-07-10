@@ -10,4 +10,6 @@
     <string name="str_LISTADOtOTAL">LISTADO TOTAL</string>
     <string name="str_placaEjemplo">XXX-123</string>
     <string name="str_FACTURAR">FACTURAR</string>
+    <string name="str_Automovil">Automovil</string>
+    <string name="str_Motocicleta">Motocicleta</string>
 </resources>

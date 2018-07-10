@@ -29,9 +29,9 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="INGRESAR VEHICULO"
+        android:layout_marginTop="84dp"
         android:onClick="Nuevo_Ingreso"
+        android:text="INGRESAR VEHICULO"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,28 +40,40 @@
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="wrap_content"
+        android:layout_width="97dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:text="INGRESAR VEHICULO"
-        android:onClick="Prueba"
-        android:textSize="24sp"
+        android:layout_marginTop="316dp"
+        android:onClick="Sacar"
+        android:text="SACAR VEHICULO"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.914"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_i_Placa" />
 
-    <TextView
-        android:id="@+id/tvHora"
+    <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="sans-serif"
-        android:text="TextView"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
-        android:textColor="@android:color/black"
-        android:typeface="normal"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/et_i_Placa">
+
+        <RadioButton
+            android:id="@+id/rbAuto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/str_Automovil" />
+
+        <RadioButton
+            android:id="@+id/rbMoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/str_Motocicleta" />
+
+    </RadioGroup>
+
 </android.support.constraint.ConstraintLayout>
