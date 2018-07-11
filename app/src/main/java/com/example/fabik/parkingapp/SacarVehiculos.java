@@ -1,13 +1,13 @@
 package com.example.fabik.parkingapp;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.gsm.GsmCellLocation;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -44,20 +44,29 @@ public class SacarVehiculos extends AppCompatActivity {
         String[] pl ={Global.Placa};
 
         try {
-            Cursor cursor=bd.rawQuery("SELECT "+ Utilidades.CAMPO_FECHA_ING+","+Utilidades.CAMPO_TIPO+
+            Cursor cursor=bd.rawQuery("SELECT "+ Utilidades.CAMPO_ID + ","+ Utilidades.CAMPO_FECHA_ING+","+Utilidades.CAMPO_TIPO+
                     " FROM "+Utilidades.TABLA_1+" WHERE "+Utilidades.CAMPO_PLACA+"=? ",pl);
 
             cursor.moveToFirst();
-            Global.FechaIngreso = cursor.getString(0);
-            Global.Tipo = cursor.getString(1);
+            Global.Id = cursor.getString(0);
+            Global.FechaIngreso = cursor.getString(1);
+            Global.Tipo = cursor.getString(2);
+
             Toast.makeText(getApplicationContext(),"Placa encontrada",Toast.LENGTH_LONG).show();
             bd.close();
+            AlertDialog();
 
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"Placa no encontrada",Toast.LENGTH_LONG).show();
             bd.close();
         }
 
+
+
+        //getDateAsTime(Global.FechaIngreso); //Llamo al metodo
+    }
+
+    public void AlertDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Ingreso de Vehiculo");
         builder.setMessage("Vehiculo "+Global.Placa+" encontrado, ingreso "+Global.FechaIngreso+" y es de tipo "+Global.Tipo);
@@ -79,6 +88,10 @@ public class SacarVehiculos extends AppCompatActivity {
                         System.out.println("Tiempo "+Global.TiempoTotal);
 
 
+                        ValorAPagar();
+                        AlertDialog2();
+
+
                     }
                 });
         builder.setNegativeButton("Cancelar",
@@ -92,11 +105,100 @@ public class SacarVehiculos extends AppCompatActivity {
                 });
 
         builder.show();
+    }
 
-        //getDateAsTime(Global.FechaIngreso); //Llamo al metodo
+    public void AlertDialog2(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Facturacion");
+        builder.setMessage("Vehiculo "+Global.Placa+" estuvo "+Global.Minutos+" minutos  y debe pagar la suma de $"+Global.ValorAPagar+" por el minuto a $125");
+        builder.setPositiveButton("Confirmar",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(SacarVehiculos.this, "IMPRIMIENDO FACTURA", Toast.LENGTH_SHORT).show();
+                        EliminarAgregar();
+                    }
+                });
+        builder.setNegativeButton("Cancelar",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        Intent intent = new Intent(SacarVehiculos.this, SacarVehiculos.class);
+                        startActivity(intent);
+                    }
+                });
+
+        builder.show();
+    }
+
+    public void ValorAPagar(){
+        int ValorMinuto = 125;
+
+        Global.ValorAPagar= Global.Minutos * ValorMinuto;
+    }
+
+    public void EliminarAgregar(){
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"administracion", null, 1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        int cant = bd.delete(Utilidades.TABLA_1, Utilidades.CAMPO_ID+"=" + Global.Id, null);
+
+        if (cant == 1) {
+            Toast.makeText(this, "Se elimino el registro de la base de datos",
+                    Toast.LENGTH_SHORT).show();
+
+            ContentValues insetar = new ContentValues();
+            insetar.put(Utilidades.CAMPO_PLACA2, Global.Placa);
+            insetar.put(Utilidades.CAMPO_FECHA_ING2, Global.FechaIngreso);
+            insetar.put(Utilidades.CAMPO_FECHA_SAL2, Global.FechaSalida);
+            insetar.put(Utilidades.CAMPO_TIPO2, Global.Tipo);
+            insetar.put(Utilidades.CAMPO_PAGO2, Global.ValorAPagar);
+            insetar.put(Utilidades.CAMPO_MINUTO2, Global.Minutos);
+
+            bd.insert(Utilidades.TABLA_2, null, insetar);
+            bd.close();
+
+        }else {
+            Toast.makeText(this, "No exite ese articulo",
+                    Toast.LENGTH_SHORT).show();
+        }
+        bd.close();
     }
 
     private String getDateAsTime() {
+        Global.TiempoTotal = "";
+        long day = 0, diff = 0, minutos = 0;
+
+        String outputPattern = "yyyy:MM:dd HH:mm:ss";
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+/*        Calendar c = Calendar.getInstance();
+        Global.FechaSalida = outputFormat.format(c.getTime());
+        */
+
+        try {
+            Date date1 = outputFormat.parse(Global.FechaIngreso);
+            Date date2 = outputFormat.parse(Global.FechaSalida);
+            diff = date2.getTime() - date1.getTime();
+            day = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            minutos = TimeUnit.MINUTES.convert(diff, TimeUnit.MILLISECONDS);
+            Global.Minutos = (int) minutos;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (day == 0) {
+            long hour = TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS);
+            if (hour == 0)
+                Global.TiempoTotal = String.valueOf(TimeUnit.MINUTES.convert(diff, TimeUnit.MILLISECONDS)); //Minutos
+            else
+                Global.TiempoTotal = String.valueOf(hour); //Horas
+        } else {
+            Global.TiempoTotal = String.valueOf(day); //Dias
+        }
+        return Global.TiempoTotal;
+    }
+
+    //Metodo para diferencia de Dates Original
+    private String getDateAsTime2() {
         Global.TiempoTotal = "";
         long day = 0, diff = 0;
 

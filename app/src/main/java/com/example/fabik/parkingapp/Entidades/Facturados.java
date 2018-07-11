@@ -4,20 +4,24 @@ import java.io.Serializable;
 
 public class Facturados implements Serializable{
     private Integer id;
-    private String nombre;
-    private String documento;
-    private String producto;
-    private String valor;
+    private String placa;
+    private String fecha_ing;
+    private String fecha_sal;
+    private String tipo;
+    private Integer valor;
+    private Integer minutos;
 
-    public Facturados(Integer id, String nombre, String documento, String producto, String valor) {
+    public Facturados(Integer id, String placa, String fecha_ing, String fecha_sal, String tipo, Integer valor, Integer minutos) {
         this.id = id;
-        this.nombre = nombre;
-        this.documento = documento;
-        this.producto = producto;
+        this.placa = placa;
+        this.fecha_ing = fecha_ing;
+        this.fecha_sal = fecha_sal;
+        this.tipo = tipo;
         this.valor = valor;
+        this.minutos = minutos;
     }
 
-    public Facturados() {
+    public Facturados(){
 
     }
 
@@ -29,35 +33,51 @@ public class Facturados implements Serializable{
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getPlaca() {
+        return placa;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setPlaca(String placa) {
+        this.placa = placa;
     }
 
-    public String getDocumento() {
-        return documento;
+    public String getFecha_ing() {
+        return fecha_ing;
     }
 
-    public void setDocumento(String documento) {
-        this.documento = documento;
+    public void setFecha_ing(String fecha_ing) {
+        this.fecha_ing = fecha_ing;
     }
 
-    public String getProducto() {
-        return producto;
+    public String getFecha_sal() {
+        return fecha_sal;
     }
 
-    public void setProducto(String producto) {
-        this.producto = producto;
+    public void setFecha_sal(String fecha_sal) {
+        this.fecha_sal = fecha_sal;
     }
 
-    public String getValor() {
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public Integer getValor() {
         return valor;
     }
 
-    public void setValor(String valor) {
+    public void setValor(Integer valor) {
         this.valor = valor;
+    }
+
+    public Integer getMinutos() {
+        return minutos;
+    }
+
+    public void setMinutos(Integer minutos) {
+        this.minutos = minutos;
     }
 }
