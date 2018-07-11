@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
+import com.example.fabik.parkingapp.Global;
 import com.example.fabik.parkingapp.Printer.utils.LogUtil;
 //import com.fabianardila.wpossappsmartposterminal.Comun.Global;
 //import com.fabianardila.wpossappsmartposterminal.Comun.Utils;
@@ -104,6 +105,64 @@ public class PrintManager {;
             }
         return ret;
     }
+
+    public int ImpresionTiqueteIngreso(viewInterface listener) {
+        String printerLine;
+        this.printTask = new PrintTask();
+        int ret = 0;
+        this.listener = listener;
+        printer = Printer.getInstance();
+        if (printer == null) {
+            ret = -1;
+        } else {
+            ret = checkPrinterStatus();
+            if (ret != Printer.PRINTER_OK)
+                return ret;
+            PrintCanvas canvas = new PrintCanvas();
+            Paint paint = new Paint();
+            LogUtil.d("print manage begin set text");
+            //Inicio de Impresion
+            printLine(paint, canvas);
+            setFontStyle(paint,4, true);
+            canvas.setX(0);
+            canvas.drawText("          PARQUEADERO        ",paint);
+            printLine(paint, canvas);
+
+            setFontStyle(paint,2, true);
+            canvas.setX(0);
+            canvas.drawText("Tiquete de ingreso",paint);
+            setFontStyle(paint,2, false);
+            canvas.setX(0);
+            canvas.drawText(" ",paint);
+            setFontStyle(paint,2, false);
+            canvas.setX(0);
+            printerLine = "Vehiculo de placa "+Global.Placa;
+            canvas.drawText(printerLine,paint);
+            setFontStyle(paint,2, false);
+            canvas.setX(0);
+            printerLine = "Fecha de ingreso "+Global.FechaIngreso;
+            canvas.drawText(printerLine,paint);
+
+            printLine(paint, canvas);
+            setFontStyle(paint,3, false);
+            canvas.setX(0);
+            canvas.drawText("      Horario de Atencion     ",paint);
+            setFontStyle(paint,3, false);
+            canvas.setX(0);
+            canvas.drawText("          6am - 8pm           ",paint);
+            printLine(paint, canvas);
+            //Fin de impresion
+            LogUtil.d("begin print tick");
+            ret = printData(canvas);
+            if (ret == com.pos.device.printer.Printer.PRINTER_OK) {
+                return 0;
+            } else {
+                return  -1;
+            }
+        }
+        return ret;
+    }
+
     public static void drawText(String text, Paint paint) {
         int ret;
     }
