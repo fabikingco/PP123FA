@@ -13,6 +13,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.fabik.parkingapp.BD_Utilidades.Utilidades;
+import com.example.fabik.parkingapp.Printer.Presenter;
+import com.example.fabik.parkingapp.Printer.PrintManager;
+import com.example.fabik.parkingapp.Printer.viewInterface;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,10 +34,15 @@ public class IngresarVehiculos extends AppCompatActivity {
     EditText placa;
     private RadioButton rbAuto, rbMoto;
 
+    private Presenter presenter;
+    public static viewInterface listener; //Para la impresion
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingresar_vehiculos);
+
+        presenter= new Presenter(callback,this); //Inicializar impresora
 
         setTitle("Ingresar Vehiculos");
 
@@ -70,6 +78,7 @@ public class IngresarVehiculos extends AppCompatActivity {
                         System.out.println("Prueba "+Global.FechaIngreso);
 
                         BaseDeDatos();
+                        PrintManager.getInstance().start(listener);
                     }
                 });
         builder.setNegativeButton("Cancelar",
@@ -102,4 +111,15 @@ public class IngresarVehiculos extends AppCompatActivity {
         Intent intent = new Intent(this, SacarVehiculos.class);
         startActivity(intent);
     }
+
+    public void Imprimir (){
+
+    }
+
+    public viewInterface callback = new viewInterface() {
+        @Override
+        public void showMsg(String msg, int mode) {
+
+        }
+    };
 }
