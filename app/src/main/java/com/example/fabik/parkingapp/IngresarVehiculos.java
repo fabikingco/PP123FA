@@ -78,7 +78,7 @@ public class IngresarVehiculos extends AppCompatActivity {
                         System.out.println("Prueba "+Global.FechaIngreso);
 
                         BaseDeDatos();
-                        PrintManager.getInstance().ImpresionTiqueteIngreso(listener);
+                        PrintManager.getInstance().start(listener);
                     }
                 });
         builder.setNegativeButton("Cancelar",
