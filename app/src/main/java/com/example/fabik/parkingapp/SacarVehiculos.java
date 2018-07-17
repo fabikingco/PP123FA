@@ -20,15 +20,23 @@ import java.util.concurrent.TimeUnit;
 
 import com.example.fabik.parkingapp.BD_Utilidades.Utilidades;
 import com.example.fabik.parkingapp.Global;
+import com.example.fabik.parkingapp.Printer.Presenter;
+import com.example.fabik.parkingapp.Printer.PrintManager;
+import com.example.fabik.parkingapp.Printer.viewInterface;
 
 public class SacarVehiculos extends AppCompatActivity {
 
     EditText placa;
 
+    private Presenter presenter;
+    public static viewInterface listener; //Para la impresion
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sacar_vehiculos);
+
+        presenter= new Presenter(callback,this); //Inicializar impresora
 
         setTitle("Sacar Vehiculos");
 
@@ -115,6 +123,7 @@ public class SacarVehiculos extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        PrintManager.getInstance().ImpresionTiqueteSalida(listener);
                         Toast.makeText(SacarVehiculos.this, "IMPRIMIENDO FACTURA", Toast.LENGTH_SHORT).show();
                         EliminarAgregar();
                     }
@@ -227,4 +236,11 @@ public class SacarVehiculos extends AppCompatActivity {
         }
         return Global.TiempoTotal;
     }
+
+    public viewInterface callback = new viewInterface() {
+        @Override
+        public void showMsg(String msg, int mode) {
+
+        }
+    };
 }
