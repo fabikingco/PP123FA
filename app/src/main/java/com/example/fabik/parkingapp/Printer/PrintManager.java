@@ -1,9 +1,12 @@
 package com.example.fabik.parkingapp.Printer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Build;
+import android.widget.Toast;
 
 import com.example.fabik.parkingapp.Global;
 import com.example.fabik.parkingapp.Printer.utils.LogUtil;
@@ -15,6 +18,11 @@ import com.pos.device.printer.PrintCanvas;
 import com.pos.device.printer.PrintTask;
 import com.pos.device.printer.Printer;
 import com.pos.device.printer.PrinterCallback;
+import com.socsi.smartposapi.printer.Align;
+import com.socsi.smartposapi.printer.FontLattice;
+import com.socsi.smartposapi.printer.PrintRespCode;
+import com.socsi.smartposapi.printer.Printer2;
+import com.socsi.smartposapi.printer.TextEntity;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
@@ -107,124 +115,178 @@ public class PrintManager {;
     }
 
     public int ImpresionTiqueteIngreso(viewInterface listener) {
-        String printerLine;
-        this.printTask = new PrintTask();
         int ret = 0;
-        this.listener = listener;
-        printer = Printer.getInstance();
-        if (printer == null) {
-            ret = -1;
-        } else {
-            ret = checkPrinterStatus();
-            if (ret != Printer.PRINTER_OK)
-                return ret;
-            PrintCanvas canvas = new PrintCanvas();
-            Paint paint = new Paint();
-            LogUtil.d("print manage begin set text");
-            //Inicio de Impresion
-            printLine(paint, canvas);
-            setFontStyle(paint,3, true);
-            canvas.setX(0);
-            canvas.drawText("          PARQUEADERO        ",paint);
-            printLine(paint, canvas);
+        if (Build.MODEL.equals("i80")) {
+            Printer2 print = Printer2.getInstance();
+            print.appendTextEntity2(new TextEntity("PARQUEADERO", null, true, Align.CENTER));
+            print.appendTextEntity2(new TextEntity("Sistema de recargas", FontLattice.THIRTY_TWO, true, Align.CENTER));
+            print.appendTextEntity2(new TextEntity(" ", null, false, null));
+            print.appendTextEntity2(new TextEntity("Comercio de Prueba", null, true, Align.CENTER));
+            print.appendTextEntity2(new TextEntity("Calle General 1254 - Quito", null, true, Align.CENTER));
+            print.appendTextEntity2(new TextEntity("0981252525", null, true, Align.CENTER));
 
-            setFontStyle(paint,2, true);
-            canvas.setX(0);
-            canvas.drawText("Tiquete de ingreso",paint);
-            setFontStyle(paint,2, false);
-            canvas.setX(0);
-            canvas.drawText(" ",paint);
-            setFontStyle(paint,3, false);
-            canvas.setX(0);
-            printerLine = "Vehiculo de placa "+Global.Placa;
-            canvas.drawText(printerLine,paint);
-            setFontStyle(paint,2, false);
-            canvas.setX(0);
-            printerLine = "Fecha de ingreso "+Global.FechaIngreso;
-            canvas.drawText(printerLine,paint);
+            print.appendTextEntity2(new TextEntity(" ", null, false, null));
+            print.appendTextEntity2(new TextEntity(" ", null, false, null));
+            print.appendTextEntity2(new TextEntity(" ", null, false, null));
+            print.appendTextEntity2(new TextEntity(" ", null, false, null));
 
-            printLine(paint, canvas);
-            setFontStyle(paint,3, false);
-            canvas.setX(0);
-            canvas.drawText("      Horario de Atencion     ",paint);
-            setFontStyle(paint,3, false);
-            canvas.setX(0);
-            canvas.drawText("          6am - 8pm           ",paint);
-            printLine(paint, canvas);
-            //Fin de impresion
-            LogUtil.d("begin print tick");
-            ret = printData(canvas);
-            if (ret == com.pos.device.printer.Printer.PRINTER_OK) {
-                return 0;
+            PrintRespCode printRespCode = print.startPrint();
+//
+            if (printRespCode != PrintRespCode.Print_Success) {
+                if (printRespCode == PrintRespCode.Printer_PaperLack || printRespCode == PrintRespCode.print_Unknow) {
+                    return -1;
+                }
+                else
+                    return -1;
             } else {
-                return  -1;
+                return 0;
+            }
+        } else if (Build.MODEL.equals("NEW9220")) {
+            String printerLine;
+            this.printTask = new PrintTask();
+            this.listener = listener;
+            printer = Printer.getInstance();
+            if (printer == null) {
+                ret = -1;
+            } else {
+                ret = checkPrinterStatus();
+                if (ret != Printer.PRINTER_OK)
+                    return ret;
+                PrintCanvas canvas = new PrintCanvas();
+                Paint paint = new Paint();
+                LogUtil.d("print manage begin set text");
+                //Inicio de Impresion
+                printLine(paint, canvas);
+                setFontStyle(paint, 3, true);
+                canvas.setX(0);
+                canvas.drawText("          PARQUEADERO        ", paint);
+                printLine(paint, canvas);
+
+                setFontStyle(paint, 2, true);
+                canvas.setX(0);
+                canvas.drawText("Tiquete de ingreso", paint);
+                setFontStyle(paint, 2, false);
+                canvas.setX(0);
+                canvas.drawText(" ", paint);
+                setFontStyle(paint, 3, false);
+                canvas.setX(0);
+                printerLine = "Vehiculo de placa " + Global.Placa;
+                canvas.drawText(printerLine, paint);
+                setFontStyle(paint, 2, false);
+                canvas.setX(0);
+                printerLine = "Fecha de ingreso " + Global.FechaIngreso;
+                canvas.drawText(printerLine, paint);
+
+                printLine(paint, canvas);
+                setFontStyle(paint, 3, false);
+                canvas.setX(0);
+                canvas.drawText("      Horario de Atencion     ", paint);
+                setFontStyle(paint, 3, false);
+                canvas.setX(0);
+                canvas.drawText("          6am - 8pm           ", paint);
+                printLine(paint, canvas);
+                //Fin de impresion
+                LogUtil.d("begin print tick");
+                ret = printData(canvas);
+                if (ret == com.pos.device.printer.Printer.PRINTER_OK) {
+                    return 0;
+                } else {
+                    return -1;
+                }
             }
         }
         return ret;
     }
 
     public int ImpresionTiqueteSalida(viewInterface listener) {
-        String printerLine;
-        this.printTask = new PrintTask();
         int ret = 0;
-        this.listener = listener;
-        printer = Printer.getInstance();
-        if (printer == null) {
-            ret = -1;
-        } else {
-            ret = checkPrinterStatus();
-            if (ret != Printer.PRINTER_OK)
-                return ret;
-            PrintCanvas canvas = new PrintCanvas();
-            Paint paint = new Paint();
-            LogUtil.d("print manage begin set text");
-            //Inicio de Impresion
-            printLine(paint, canvas);
-            setFontStyle(paint,3, true);
-            canvas.setX(0);
-            canvas.drawText("          PARQUEADERO        ",paint);
-            printLine(paint, canvas);
+        if (Build.MODEL.equals("i80")) {
+            Printer2 print = Printer2.getInstance();
+            print.appendTextEntity2(new TextEntity("PARQUEADERO", null, true, Align.CENTER));
+            print.appendTextEntity2(new TextEntity("Sistema de recargas", FontLattice.THIRTY_TWO, true, Align.CENTER));
+            print.appendTextEntity2(new TextEntity(" ", null, false, null));
+            print.appendTextEntity2(new TextEntity("Comercio de Prueba", null, true, Align.CENTER));
+            print.appendTextEntity2(new TextEntity("Calle General 1254 - Quito", null, true, Align.CENTER));
+            print.appendTextEntity2(new TextEntity("0981252525", null, true, Align.CENTER));
 
-            setFontStyle(paint,2, true);
-            canvas.setX(0);
-            canvas.drawText("Tiquete de ingreso",paint);
-            setFontStyle(paint,2, false);
-            canvas.setX(0);
-            canvas.drawText(" ",paint);
-            setFontStyle(paint,2, false);
-            canvas.setX(0);
-            printerLine = "Vehiculo de placa "+Global.Placa;
-            canvas.drawText(printerLine,paint);
-            setFontStyle(paint,2, false);
-            canvas.setX(0);
-            printerLine = "Fecha de salida "+Global.FechaSalida;
-            canvas.drawText(printerLine,paint);
+            print.appendTextEntity2(new TextEntity(" ", null, false, null));
+            print.appendTextEntity2(new TextEntity(" ", null, false, null));
+            print.appendTextEntity2(new TextEntity(" ", null, false, null));
+            print.appendTextEntity2(new TextEntity(" ", null, false, null));
 
-            setFontStyle(paint,3, false);
-            canvas.setX(0);
-            printerLine = "Valor a pagar "+Global.ValorAPagar;
-            canvas.drawText(printerLine,paint);
-
-            setFontStyle(paint,3, false);
-            canvas.setX(0);
-            printerLine = "Tiempo: "+Global.Minutos;
-            canvas.drawText(printerLine,paint);
-
-            printLine(paint, canvas);
-            setFontStyle(paint,3, false);
-            canvas.setX(0);
-            canvas.drawText("      Horario de Atencion     ",paint);
-            setFontStyle(paint,3, false);
-            canvas.setX(0);
-            canvas.drawText("          6am - 8pm           ",paint);
-            printLine(paint, canvas);
-            //Fin de impresion
-            LogUtil.d("begin print tick");
-            ret = printData(canvas);
-            if (ret == com.pos.device.printer.Printer.PRINTER_OK) {
-                return 0;
+            PrintRespCode printRespCode = print.startPrint();
+//
+            if (printRespCode != PrintRespCode.Print_Success) {
+                if (printRespCode == PrintRespCode.Printer_PaperLack || printRespCode == PrintRespCode.print_Unknow) {
+                    return -1;
+                }
+                else
+                    return -1;
             } else {
-                return  -1;
+                return 0;
+            }
+        } else if (Build.MODEL.equals("NEW9220")) {
+            String printerLine;
+            this.printTask = new PrintTask();
+            this.listener = listener;
+            printer = Printer.getInstance();
+            if (printer == null) {
+                ret = -1;
+            } else {
+                ret = checkPrinterStatus();
+                if (ret != Printer.PRINTER_OK)
+                    return ret;
+                PrintCanvas canvas = new PrintCanvas();
+                Paint paint = new Paint();
+                LogUtil.d("print manage begin set text");
+                //Inicio de Impresion
+                printLine(paint, canvas);
+                setFontStyle(paint, 3, true);
+                canvas.setX(0);
+                canvas.drawText("          PARQUEADERO        ", paint);
+                printLine(paint, canvas);
+
+                setFontStyle(paint, 2, true);
+                canvas.setX(0);
+                canvas.drawText("Tiquete de ingreso", paint);
+                setFontStyle(paint, 2, false);
+                canvas.setX(0);
+                canvas.drawText(" ", paint);
+                setFontStyle(paint, 2, false);
+                canvas.setX(0);
+                printerLine = "Vehiculo de placa " + Global.Placa;
+                canvas.drawText(printerLine, paint);
+                setFontStyle(paint, 2, false);
+                canvas.setX(0);
+                printerLine = "Fecha de salida " + Global.FechaSalida;
+                canvas.drawText(printerLine, paint);
+
+                setFontStyle(paint, 3, false);
+                canvas.setX(0);
+                printerLine = "Valor a pagar " + Global.ValorAPagar;
+                canvas.drawText(printerLine, paint);
+
+                setFontStyle(paint, 3, false);
+                canvas.setX(0);
+                printerLine = "Tiempo: " + Global.Minutos;
+                canvas.drawText(printerLine, paint);
+
+                printLine(paint, canvas);
+                setFontStyle(paint, 3, false);
+                canvas.setX(0);
+                canvas.drawText("      Horario de Atencion     ", paint);
+                setFontStyle(paint, 3, false);
+                canvas.setX(0);
+                canvas.drawText("          6am - 8pm           ", paint);
+                printLine(paint, canvas);
+                //Fin de impresion
+                LogUtil.d("begin print tick");
+                ret = printData(canvas);
+                if (ret == com.pos.device.printer.Printer.PRINTER_OK) {
+                    return 0;
+                } else {
+                    return -1;
+                }
             }
         }
         return ret;

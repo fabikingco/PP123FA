@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -74,9 +75,7 @@ public class IngresarVehiculos extends AppCompatActivity {
                         SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
                         Calendar c = Calendar.getInstance();
                         Global.FechaIngreso = outputFormat.format(c.getTime());
-
                         System.out.println("Prueba "+Global.FechaIngreso);
-
                         BaseDeDatos();
                         PrintManager.getInstance().ImpresionTiqueteIngreso(listener);
                     }
