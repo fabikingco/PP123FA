@@ -1,5 +1,6 @@
 package com.example.fabik.parkingapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,7 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +29,9 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.transformation.TransformationChildCard;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Listado_main extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
@@ -38,6 +45,8 @@ public class Listado_main extends AppCompatActivity implements Toolbar.OnMenuIte
     private BottomAppBar appbar;
     private List<Ingresados> lista;
     private EditText edPlaca;
+    private RadioGroup radioGroup;
+    private Ingresados ingresoTemporal;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +56,8 @@ public class Listado_main extends AppCompatActivity implements Toolbar.OnMenuIte
 
         lista = getListIngresados();
         edPlaca = findViewById(R.id.tiTitulo);
+        radioGroup = findViewById(R.id.rGroup);
+
         recy = findViewById(R.id.rcy01);
         recy.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         Adapter_Listado_main adapter = new Adapter_Listado_main(this, lista, R.layout.item_listado_main);
@@ -62,19 +73,16 @@ public class Listado_main extends AppCompatActivity implements Toolbar.OnMenuIte
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         appbar = findViewById(R.id.appbar);
         appbar.setOnMenuItemClickListener(this);
-/*
-        if (lista.size() == 0) {
-            showCard(null, Type_Card.TYPE_NEW);
-        }*/
+
 
         fbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (fbtn.isExpanded()) {
-                    /*hideCard(cardType_View, false);*/
+                    hideCard();
 
                 } else {
-                    showCard(null, Type_Card.TYPE_NEW);
+                    showCard();
                 }
             }
         });
@@ -82,72 +90,49 @@ public class Listado_main extends AppCompatActivity implements Toolbar.OnMenuIte
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideCard(Type_Card.TYPE_NEW, false);
+                hideCard();
             }
         });
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ingresoTemporal = getIngreso();
+                if (ingresoTemporal != null) {
+                    guardarIngrefo_db(ingresoTemporal);
+                    hideCard();
+                }
 
-          /*      Mensaje m = getMensajeCard(null);
-                if (m != null) {
-                    lista.add(m);
-                    hideCard(Type_Card.TYPE_NEW, false);
-                }*/
             }
         });
     }
 
-    private void showCard(String mensaje, Type_Card type) {
+    private void showCard() {
 
-        if (mensaje == null) {
+        fbtn.setExpanded(true);
+        edPlaca.requestFocus();
+        imm.showSoftInput(edPlaca, InputMethodManager.SHOW_IMPLICIT);
+        appbar.setVisibility(View.GONE);
 
-        }
-        switch (type) {
-            case TYPE_EDIT:
-
-                break;
-            case TYPE_NEW:
-                fbtn.setExpanded(true);
-                edPlaca.requestFocus();
-                imm.showSoftInput(edPlaca, InputMethodManager.SHOW_IMPLICIT);
-                appbar.setVisibility(View.GONE);
-                break;
-            case TYPE_VIEW:
-                fbtn.setExpanded(true);
-
-                btnOk.setVisibility(View.GONE);
-
-                break;
-        }
     }
 
-    private void hideCard(Type_Card oldType, boolean isSaveTempo) {
-        switch (oldType) {
-            case TYPE_NEW:
-            case TYPE_EDIT:
-                View view = Listado_main.this.getCurrentFocus();
-                view.clearFocus();
-                if (view != null) {
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
-                edPlaca.setText("");
-                fbtn.setExpanded(false);
-                appbar.setVisibility(View.VISIBLE);
-                if (lista.size() == 0) {
-                    tvvacio.setVisibility(View.VISIBLE);
-                } else {
-                    tvvacio.setVisibility(View.GONE);
-                }
-                break;
-            case TYPE_VIEW:
-                fbtn.setExpanded(false);
-                appbar.setVisibility(View.VISIBLE);
+    private void hideCard() {
 
-                break;
-
+        View view = Listado_main.this.getCurrentFocus();
+        view.clearFocus();
+        if (view != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+        edPlaca.setText("");
+        fbtn.setExpanded(false);
+        appbar.setVisibility(View.VISIBLE);
+        if (lista.size() == 0) {
+            tvvacio.setVisibility(View.VISIBLE);
+        } else {
+            tvvacio.setVisibility(View.GONE);
+        }
+
+
     }
 
     private List<Ingresados> getListIngresados() {
@@ -173,8 +158,52 @@ public class Listado_main extends AppCompatActivity implements Toolbar.OnMenuIte
     }
 
 
+    private Ingresados getIngreso() {
+        Ingresados result = new Ingresados();
+        String temporal;
+        temporal = edPlaca.getText().toString();
+        if (temporal.isEmpty()) {
+
+            Toast.makeText(Listado_main.this, "Digite placa por favor", Toast.LENGTH_SHORT).show();
+
+            return null;
+        } else {
+            result.setPlaca(temporal);
+        }
+
+        RadioButton rb = findViewById(radioGroup.getCheckedRadioButtonId());
+        if (rb == null) {
+            Toast.makeText(Listado_main.this, "Seleccione tipo de vehículo", Toast.LENGTH_SHORT).show();
+            return null;
+        } else {
+            temporal = rb.getText().toString();
+            result.setTipo(temporal);
+        }
+        String outputPattern = "yyyy:MM:dd HH:mm:ss";
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+        Calendar c = Calendar.getInstance();
+        temporal = outputFormat.format(c.getTime());
+        result.setFecha_ing(temporal);
+        return result;
+    }
+
+
+    private void guardarIngrefo_db(Ingresados obj) {
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        ContentValues insetar = new ContentValues();
+        insetar.put(Utilidades.CAMPO_PLACA, obj.getPlaca());
+        insetar.put(Utilidades.CAMPO_FECHA_ING, obj.getFecha_ing());
+        insetar.put(Utilidades.CAMPO_TIPO, obj.getTipo());
+        bd.insert(Utilidades.TABLA_1, null, insetar);
+        bd.close();
+    }
+
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return false;
     }
+
+
 }
