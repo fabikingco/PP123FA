@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     android:fitsSystemWindows="true">
 
 
@@ -10,11 +11,8 @@
         android:id="@+id/rcy01"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:clipToPadding="false"
-
-
-        />
+        android:paddingBottom="45dp" />
 
 
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -23,28 +21,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-
         app:buttonGravity="center_vertical"
-        app:fabAlignmentMode="center"
-
-
-        />
+        app:fabAlignmentMode="center" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_add_black_24dp"
         app:layout_anchor="@id/appbar" />
 
     <com.google.android.material.transformation.TransformationChildCard
         android:id="@+id/sheet"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
         android:visibility="invisible"
-        app:cardElevation="2dp"
-
+        app:cardElevation="3dp"
+        android:layout_gravity="center"
         app:layout_behavior="@string/fab_transformation_sheet_behavior">
 
 
@@ -59,38 +56,68 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_close_black_24dp" />
 
-                android:scaleType="fitCenter" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/etTitulo"
+            <EditText
+                android:id="@+id/tiTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_toStartOf="@id/close_button"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="64dp"
+                android:background="@drawable/custom_textinputlayout"
+                android:ems="7"
+                android:gravity="center"
+                android:hint="XXX-123"
+                android:inputType="textCapCharacters"
+                android:maxLength="7"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:paddingStart="8dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="16dp"
+                android:textSize="48sp"
+                android:textStyle="bold" />
 
 
-                android:maxLines="1">
+            <RadioGroup
+                android:id="@+id/rGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tiTitulo"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tiTitulo"
-                    android:layout_width="match_parent"
+                <RadioButton
+                    android:id="@+id/rbAuto"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:maxLength="20"
-                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:text="@string/str_Automovil" />
 
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
+                <RadioButton
+                    android:id="@+id/rbMoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/str_Motocicleta" />
+
+            </RadioGroup>
 
 
             <Button
                 android:id="@+id/btnOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@id/rGroup"
+                android:text="@string/Agregar"
 
                 />
 

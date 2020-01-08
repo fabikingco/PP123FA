@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <uses-library android:name="com.pos.device"
             android:required="false"/>
-        <activity android:name=".MenuPrincipal">
+        <activity android:name=".Listado_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,9 +24,9 @@
         <activity android:name=".IngresarVehiculos" />
         <activity android:name=".SacarVehiculos" />
         <activity android:name=".ListarVehiculos" />
-        <activity android:name=".ListadoTotal">
+        <activity android:name=".ListadoTotal"/>
+        <activity android:name=".MenuPrincipal"/>
 
-        </activity>
     </application>
 
 </manifest>
