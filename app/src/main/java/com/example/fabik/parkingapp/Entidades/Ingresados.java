@@ -50,4 +50,6 @@ public class Ingresados implements Serializable{
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
+
 }
