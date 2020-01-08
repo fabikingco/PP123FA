@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:buttonGravity="center_vertical"
+        app:menu="@menu/menu_listado"
         app:fabAlignmentMode="center" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -118,7 +119,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rGroup"
                 android:text="@string/Agregar"
-
                 />
 
 
@@ -130,7 +130,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-
         android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

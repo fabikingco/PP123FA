@@ -13,4 +13,6 @@
     <string name="str_Automovil">Automovil</string>
     <string name="str_Motocicleta">Motocicleta</string>
     <string name="Agregar">Agregar</string>
+    <string name="folder">folder</string>
+    <string name="buscar">buscar</string>
 </resources>

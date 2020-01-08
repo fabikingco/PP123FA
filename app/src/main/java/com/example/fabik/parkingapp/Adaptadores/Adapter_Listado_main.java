@@ -16,18 +16,26 @@ import com.example.fabik.parkingapp.R;
 
 import java.util.List;
 
-public class Adapter_Listado_main extends RecyclerView.Adapter<Adapter_Listado_main.ViewHolder> {
+public class Adapter_Listado_main extends RecyclerView.Adapter<Adapter_Listado_main.ViewHolder>  {
 
 
     Context context;
     List<Ingresados> lista;
     int layout;
     Ingresados ingresados;
+    RecyOnItemClickListener recyOnItemClickListener;
 
     public Adapter_Listado_main(Context context, List<Ingresados> lista, int layout) {
         this.context = context;
         this.lista = lista;
         this.layout = layout;
+    }
+
+    public Adapter_Listado_main(Context context, List<Ingresados> lista, int layout,  RecyOnItemClickListener recyOnItemClickListener) {
+        this.context = context;
+        this.lista = lista;
+        this.layout = layout;
+        this.recyOnItemClickListener = recyOnItemClickListener;
     }
 
     @NonNull
@@ -38,11 +46,17 @@ public class Adapter_Listado_main extends RecyclerView.Adapter<Adapter_Listado_m
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         ingresados = lista.get(position);
 
         holder.tvplaca.setText(ingresados.getPlaca());
         holder.tvFecha.setText(ingresados.getFecha_ing());
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recyOnItemClickListener.onclick(lista.get(position));
+            }
+        });
 
     }
 
@@ -50,6 +64,7 @@ public class Adapter_Listado_main extends RecyclerView.Adapter<Adapter_Listado_m
     public int getItemCount() {
         return lista.size();
     }
+
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
