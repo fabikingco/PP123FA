@@ -6,23 +6,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.fabik.parkingapp.BD_Utilidades.Utilidades;
+import com.example.fabik.parkingapp.Printer.Presenter;
+import com.example.fabik.parkingapp.Printer.PrintManager;
+import com.example.fabik.parkingapp.Printer.viewInterface;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
-import com.example.fabik.parkingapp.BD_Utilidades.Utilidades;
-import com.example.fabik.parkingapp.Global;
-import com.example.fabik.parkingapp.Printer.Presenter;
-import com.example.fabik.parkingapp.Printer.PrintManager;
-import com.example.fabik.parkingapp.Printer.viewInterface;
 
 public class SacarVehiculos extends AppCompatActivity {
 
