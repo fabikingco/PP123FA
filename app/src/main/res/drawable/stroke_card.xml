@@ -6,7 +6,7 @@
     </corners>
 
     <stroke
-        android:color="@android:color/black"
-        android:width="3dp">
+        android:color="@android:color/darker_gray"
+        android:width="2dp">
     </stroke>
 </shape>

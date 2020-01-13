@@ -1,64 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".IngresarVehiculos">
 
-    <EditText
-        android:id="@+id/et_i_Placa"
-        android:layout_width="228dp"
-        android:layout_height="117dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/custom_textinputlayout"
-        android:ems="7"
-        android:hint="@string/str_placaEjemplo"
-        android:inputType="textCapCharacters"
-        android:maxLength="7"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:textAlignment="center"
-        android:textSize="54sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardPlaca"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:onClick="Nuevo_Ingreso"
-        android:text="INGRESAR VEHICULO"
-        android:textSize="24sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_i_Placa" />
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="97dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="316dp"
-        android:onClick="Sacar"
-        android:text="SACAR VEHICULO"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.914"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_i_Placa" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/stroke_card">
+
+            <EditText
+                android:id="@+id/et_i_Placa"
+                android:layout_width="match_parent"
+                android:layout_height="117dp"
+                android:layout_margin="25dp"
+                android:ems="7"
+                android:hint="@string/str_placaEjemplo"
+                android:inputType="textCapCharacters"
+                android:maxLength="7"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textSize="54sp"
+                android:textStyle="bold"
+                />
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_arrow_back"
+                android:background="@android:color/transparent"
+                android:layout_margin="5dp"
+                android:onClick="btnBack"
+                />
+
+        </RelativeLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_i_Placa">
+        app:layout_constraintTop_toBottomOf="@+id/cardPlaca">
 
         <RadioButton
             android:id="@+id/rbAuto"
@@ -75,5 +80,20 @@
             android:text="@string/str_Motocicleta" />
 
     </RadioGroup>
+
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:onClick="Nuevo_Ingreso"
+        android:text="INGRESAR VEHICULO"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardPlaca" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout >

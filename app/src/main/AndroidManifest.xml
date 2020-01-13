@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <uses-library android:name="com.pos.device"
             android:required="false"/>
-        <activity android:name=".Listado_main">
+        <activity android:name=".ListadoMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -2,19 +2,16 @@ package com.example.fabik.parkingapp;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -31,8 +28,8 @@ import com.example.fabik.parkingapp.Entidades.Ingresados;
 import com.example.fabik.parkingapp.Printer.PrintManager;
 import com.example.fabik.parkingapp.Printer.viewInterface;
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.transformation.TransformationChildCard;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,107 +39,76 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class Listado_main extends AppCompatActivity implements Toolbar.OnMenuItemClickListener, RecyOnItemClickListener {
+public class ListadoMain extends AppCompatActivity implements RecyOnItemClickListener {
 
 
-    private RecyclerView recy;
-    private View btnOk;
-    private FloatingActionButton fbtn;
-    private TextView tvvacio;
-    private InputMethodManager imm;
-    private BottomAppBar appbar;
-    private List<Ingresados> lista;
-    private EditText edPlaca;
-    private RadioGroup radioGroup;
-    private Ingresados ingresoTemporal;
+    private RecyclerView recyclerView;
+    private BottomAppBar bottomAppBar;
+    private List<Ingresados> listaVehiculoIngresados;
     public static viewInterface listener;
-
+    private ImageView imageView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.actyvity_listado_main);
+        setContentView(R.layout.activity_listado_main);
+        imageView = findViewById(R.id.imagenPrincipal);
+        listaVehiculoIngresados = getListIngresados();
+        recyclerView = findViewById(R.id.rcy01);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
-
-        lista = getListIngresados();
-        edPlaca = findViewById(R.id.tiTitulo);
-        radioGroup = findViewById(R.id.rGroup);
-
-        recy = findViewById(R.id.rcy01);
-        recy.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        cargarAdaptador(lista);
-
-        View closeButton = findViewById(R.id.close_button);
-        TransformationChildCard sheet = findViewById(R.id.sheet);
-        btnOk = findViewById(R.id.btnOk);
-        fbtn = findViewById(R.id.fbtn);
-
-        tvvacio = findViewById(R.id.tvVacio);
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        appbar = findViewById(R.id.appbar);
-        appbar.setOnMenuItemClickListener(this);
-
-        fbtn.setOnClickListener(new View.OnClickListener() {
+        cargarAdaptador(listaVehiculoIngresados);
+        FloatingActionButton floatingActionButton = findViewById(R.id.fbtn);
+        setUpBottomAppBar();
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (fbtn.isExpanded()) {
-                    hideCard();
-
-                } else {
-                    showCard();
-                }
-            }
-        });
-
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideCard();
-            }
-        });
-
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ingresoTemporal = getIngreso();
-                if (ingresoTemporal != null) {
-                    guardarIngrefo_db(ingresoTemporal);
-                    lista.add(ingresoTemporal);
-                    cargarAdaptador(lista);
-                    hideCard();
-                }
-
+                startActivity(new Intent(ListadoMain.this, IngresarVehiculos.class));
             }
         });
     }
 
-    private void showCard() {
+    private void setUpBottomAppBar() {
+        bottomAppBar = findViewById(R.id.appbar);
 
-        fbtn.setExpanded(true);
-        edPlaca.requestFocus();
-        imm.showSoftInput(edPlaca, InputMethodManager.SHOW_IMPLICIT);
-        appbar.setVisibility(View.GONE);
+        setSupportActionBar(bottomAppBar);
 
+        bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                String mensaje;
+                switch (item.getItemId()) {
+                    case R.id.home:
+                        mensaje = "home";
+                        break;
+                    case R.id.buscar:
+                        mensaje = "buscar";
+                        break;
+                    case R.id.filter:
+                        mensaje = "filter";
+                        break;
+                    default:
+                        mensaje=" desconocido";
+                }
+                Toast.makeText(ListadoMain.this, mensaje, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+        bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomSheetDialogFragment bottomSheetDialogFragment = new BottomNavigationDrawerFragment();
+                bottomSheetDialogFragment.show(getSupportFragmentManager(), "Bottom Sheet Dialog Fragment");
+            }
+        });
     }
 
-    private void hideCard() {
 
-        View view = Listado_main.this.getCurrentFocus();
-        view.clearFocus();
-        if (view != null) {
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-        edPlaca.setText("");
-        fbtn.setExpanded(false);
-        appbar.setVisibility(View.VISIBLE);
-        radioGroup.clearCheck();
-        if (lista.size() == 0) {
-            tvvacio.setVisibility(View.VISIBLE);
-        } else {
-            tvvacio.setVisibility(View.GONE);
-        }
-
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private List<Ingresados> getListIngresados() {
@@ -164,68 +130,29 @@ public class Listado_main extends AppCompatActivity implements Toolbar.OnMenuIte
 
             listaIngresados.add(ingresados);
         }
+        if (listaIngresados.isEmpty()) {
+            imageView.setVisibility(View.VISIBLE);
+        } else {
+            imageView.setVisibility(View.GONE);
+        }
         return listaIngresados;
     }
 
 
-    private Ingresados getIngreso() {
-        Ingresados result = new Ingresados();
-        String temporal;
-        temporal = edPlaca.getText().toString();
-        if (temporal.isEmpty()) {
-
-            Toast.makeText(Listado_main.this, "Digite placa por favor", Toast.LENGTH_SHORT).show();
-
-            return null;
-        } else {
-            result.setPlaca(temporal);
-        }
-
-        RadioButton rb = findViewById(radioGroup.getCheckedRadioButtonId());
-        if (rb == null) {
-            Toast.makeText(Listado_main.this, "Seleccione tipo de vehículo", Toast.LENGTH_SHORT).show();
-            return null;
-        } else {
-            temporal = rb.getText().toString();
-            result.setTipo(temporal);
-        }
-        String outputPattern = "yyyy:MM:dd HH:mm:ss";
-        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
-        Calendar c = Calendar.getInstance();
-        temporal = outputFormat.format(c.getTime());
-        result.setFecha_ing(temporal);
-        return result;
-    }
-
-
-    private void guardarIngrefo_db(Ingresados obj) {
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
-        SQLiteDatabase bd = admin.getWritableDatabase();
-        ContentValues insetar = new ContentValues();
-        insetar.put(Utilidades.CAMPO_PLACA, obj.getPlaca());
-        insetar.put(Utilidades.CAMPO_FECHA_ING, obj.getFecha_ing());
-        insetar.put(Utilidades.CAMPO_TIPO, obj.getTipo());
-        bd.insert(Utilidades.TABLA_1, null, insetar);
-        bd.close();
-    }
-
 
     @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        String mensaje;
-        switch (item.getItemId()) {
-            case R.id.buscar:
-                mensaje = "buscar";
-                break;
-            case R.id.folder:
-                mensaje = "folder";
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.home:
+                Toast.makeText(this, "Prueba menu", Toast.LENGTH_SHORT).show();
                 break;
             default:
-                mensaje=" desconocido";
+                Toast.makeText(this, "Otra opcion", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
-        return false;
+        return true;
     }
+
+
 
 
     @Override
@@ -309,7 +236,7 @@ public class Listado_main extends AppCompatActivity implements Toolbar.OnMenuIte
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         PrintManager.getInstance().ImpresionTiqueteSalida(listener, facturados);
-                        Toast.makeText(Listado_main.this, "IMPRIMIENDO FACTURA", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ListadoMain.this, "IMPRIMIENDO FACTURA", Toast.LENGTH_SHORT).show();
                         EliminarAgregar(facturados);
                         cargarAdaptador(getListIngresados());
 
@@ -369,7 +296,6 @@ public class Listado_main extends AppCompatActivity implements Toolbar.OnMenuIte
 
     private void cargarAdaptador(List<Ingresados> lista) {
         Adapter_Listado_main adapter = new Adapter_Listado_main(this, lista, R.layout.item_listado_main, this);
-        recy.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
-
 }

@@ -9,6 +9,4 @@
         android:color="@android:color/black"
         android:width="3dp">
     </stroke>
-
-    <solid android:color="#f7d124" />
 </shape>

@@ -8,11 +8,12 @@
     <string name="str_SACARvEHICULOS">SACAR VEHICULOS</string>
     <string name="str_LISTARvEHICULOS">LISTAR VEHICULOS</string>
     <string name="str_LISTADOtOTAL">LISTADO TOTAL</string>
-    <string name="str_placaEjemplo">XXX-123</string>
+    <string name="str_placaEjemplo">XXX-1234</string>
     <string name="str_FACTURAR">FACTURAR</string>
     <string name="str_Automovil">Automovil</string>
     <string name="str_Motocicleta">Motocicleta</string>
     <string name="Agregar">Agregar</string>
-    <string name="folder">folder</string>
+    <string name="filtrar">Filtrar</string>
     <string name="buscar">buscar</string>
+    <string name="settings">Configuración</string>
 </resources>

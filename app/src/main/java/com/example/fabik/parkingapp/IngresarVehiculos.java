@@ -33,7 +33,7 @@ public class IngresarVehiculos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingresar_vehiculos);
 
-        presenter= new Presenter(callback,this); //Inicializar impresora
+        presenter = new Presenter(callback,this); //Inicializar impresora
 
         setTitle("Ingresar Vehiculos");
 
@@ -68,6 +68,8 @@ public class IngresarVehiculos extends AppCompatActivity {
                         System.out.println("Prueba "+Global.FechaIngreso);
                         BaseDeDatos();
                         PrintManager.getInstance().ImpresionTiqueteIngreso(listener);
+                        startActivity(new Intent(IngresarVehiculos.this, ListadoMain.class));
+                        finish();
                     }
                 });
         builder.setNegativeButton("Cancelar",
@@ -75,8 +77,7 @@ public class IngresarVehiculos extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
-                        Intent intent = new Intent(IngresarVehiculos.this, IngresarVehiculos.class);
-                        startActivity(intent);
+                        startActivity(new Intent(IngresarVehiculos.this, IngresarVehiculos.class));
                     }
                 });
 
@@ -96,19 +97,14 @@ public class IngresarVehiculos extends AppCompatActivity {
         bd.close();
     }
 
-    public void Sacar(View view) {
-        Intent intent = new Intent(this, SacarVehiculos.class);
-        startActivity(intent);
-    }
-
-    public void Imprimir (){
-
-    }
-
     public viewInterface callback = new viewInterface() {
         @Override
         public void showMsg(String msg, int mode) {
 
         }
     };
+
+    public void btnBack(View view) {
+        onBackPressed();
+    }
 }
