@@ -5,14 +5,10 @@
         <item
             android:id="@+id/nav1"
             android:icon="@drawable/ic_menu"
-            android:title="Opcion" />
+            android:title="Configuración" />
         <item
             android:id="@+id/nav2"
             android:icon="@drawable/ic_menu"
-            android:title="Opcion" />
-        <item
-            android:id="@+id/nav3"
-            android:icon="@drawable/ic_menu"
-            android:title="Opcion" />
+            android:title="Cerrar sesión" />
     </group>
 </menu>

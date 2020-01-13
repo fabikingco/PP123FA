@@ -16,7 +16,7 @@ import com.example.fabik.parkingapp.R;
 
 import java.util.List;
 
-public class Adapter_Listado_main extends RecyclerView.Adapter<Adapter_Listado_main.ViewHolder>  {
+public class AdaptadorListaMain extends RecyclerView.Adapter<AdaptadorListaMain.ViewHolder>  {
 
 
     Context context;
@@ -25,13 +25,13 @@ public class Adapter_Listado_main extends RecyclerView.Adapter<Adapter_Listado_m
     Ingresados ingresados;
     RecyOnItemClickListener recyOnItemClickListener;
 
-    public Adapter_Listado_main(Context context, List<Ingresados> lista, int layout) {
+    public AdaptadorListaMain(Context context, List<Ingresados> lista, int layout) {
         this.context = context;
         this.lista = lista;
         this.layout = layout;
     }
 
-    public Adapter_Listado_main(Context context, List<Ingresados> lista, int layout,  RecyOnItemClickListener recyOnItemClickListener) {
+    public AdaptadorListaMain(Context context, List<Ingresados> lista, int layout, RecyOnItemClickListener recyOnItemClickListener) {
         this.context = context;
         this.lista = lista;
         this.layout = layout;

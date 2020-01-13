@@ -4,10 +4,10 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
+    android:layout_marginStart="20dp"
     android:layout_marginTop="16dp"
-    android:layout_marginEnd="8dp"
-    app:cardCornerRadius="4dp"
+    android:layout_marginEnd="20dp"
+    app:cardCornerRadius="8dp"
     app:cardElevation="3dp">
 
     <LinearLayout
@@ -19,15 +19,20 @@
         <ImageView
             android:id="@+id/img"
             android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/coche_basic"/>
 
         <TextView
             android:id="@+id/tv01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingStart="16dp"
-            android:text="placa"
+            android:layout_marginStart="16dp"
+            android:text="XXX-1234"
+            android:gravity="center"
+            android:fontFamily="@font/open_sans"
+            android:textColor="@android:color/black"
             android:textSize="16sp" />
 
         <TextView
@@ -38,6 +43,8 @@
             android:layout_weight="1"
             android:gravity="right"
             android:text="fecha"
+            android:fontFamily="@font/open_sans"
+            android:textColor="@android:color/black"
             android:textSize="16sp" />
     </LinearLayout>
 

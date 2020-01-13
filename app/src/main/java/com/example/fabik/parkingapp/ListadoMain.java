@@ -20,11 +20,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fabik.parkingapp.Adaptadores.Adapter_Listado_main;
+import com.example.fabik.parkingapp.Adaptadores.AdaptadorListaMain;
 import com.example.fabik.parkingapp.Adaptadores.RecyOnItemClickListener;
 import com.example.fabik.parkingapp.BD_Utilidades.Utilidades;
 import com.example.fabik.parkingapp.Entidades.Facturados;
 import com.example.fabik.parkingapp.Entidades.Ingresados;
+import com.example.fabik.parkingapp.Fragments.BottomNavigationDrawerFragment;
 import com.example.fabik.parkingapp.Printer.PrintManager;
 import com.example.fabik.parkingapp.Printer.viewInterface;
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -185,7 +186,7 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                        dialog.dismiss();
 
                     }
                 });
@@ -228,7 +229,7 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
 
 
     public void AlertDialog2(final Facturados facturados) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Facturacion");
         builder.setMessage("Vehiculo " + facturados.getPlaca() + " estuvo " + facturados.getMinutos() + " minutos  y debe pagar la suma de $" + facturados.getValor() + " por el minuto a $" + facturados.getValor_min());
         builder.setPositiveButton("Confirmar",
@@ -247,9 +248,7 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
-
-
+                        dialog.dismiss();
                     }
                 });
 
@@ -295,7 +294,7 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
     }
 
     private void cargarAdaptador(List<Ingresados> lista) {
-        Adapter_Listado_main adapter = new Adapter_Listado_main(this, lista, R.layout.item_listado_main, this);
+        AdaptadorListaMain adapter = new AdaptadorListaMain(this, lista, R.layout.item_listado_main, this);
         recyclerView.setAdapter(adapter);
     }
 }
