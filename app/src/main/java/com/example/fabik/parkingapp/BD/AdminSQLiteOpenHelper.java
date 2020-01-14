@@ -1,10 +1,10 @@
-package com.example.fabik.parkingapp;
+package com.example.fabik.parkingapp.BD;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.fabik.parkingapp.BD_Utilidades.Utilidades;
+import com.example.fabik.parkingapp.BD.Utilidades;
 
 public class AdminSQLiteOpenHelper extends SQLiteOpenHelper{
 

@@ -1,4 +1,4 @@
-package com.example.fabik.parkingapp.BD_Utilidades;
+package com.example.fabik.parkingapp.BD;
 
 public class Utilidades {
 

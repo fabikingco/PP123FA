@@ -8,7 +8,8 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.fabik.parkingapp.BD_Utilidades.Utilidades;
+import com.example.fabik.parkingapp.BD.AdminSQLiteOpenHelper;
+import com.example.fabik.parkingapp.BD.Utilidades;
 import com.example.fabik.parkingapp.Entidades.Ingresados;
 
 import java.util.ArrayList;
@@ -33,8 +34,6 @@ public class ListarVehiculos extends AppCompatActivity {
 
         ArrayAdapter adaptador=new ArrayAdapter(this,android.R.layout.simple_list_item_1,listaVehiculos);
         listViewIngresados.setAdapter(adaptador);
-
-
 
     }
 

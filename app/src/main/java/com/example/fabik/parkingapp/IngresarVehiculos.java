@@ -12,7 +12,8 @@ import android.widget.RadioButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.fabik.parkingapp.BD_Utilidades.Utilidades;
+import com.example.fabik.parkingapp.BD.AdminSQLiteOpenHelper;
+import com.example.fabik.parkingapp.BD.Utilidades;
 import com.example.fabik.parkingapp.Printer.Presenter;
 import com.example.fabik.parkingapp.Printer.PrintManager;
 import com.example.fabik.parkingapp.Printer.viewInterface;

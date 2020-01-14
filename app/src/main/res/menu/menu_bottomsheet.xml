@@ -3,11 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="none">
         <item
-            android:id="@+id/nav1"
+            android:id="@+id/navConfiguracion"
             android:icon="@drawable/ic_menu"
             android:title="Configuración" />
         <item
-            android:id="@+id/nav2"
+            android:id="@+id/navHistorial"
+            android:icon="@drawable/ic_menu"
+            android:title="Historial" />
+        <item
+            android:id="@+id/navCerrarSesion"
             android:icon="@drawable/ic_menu"
             android:title="Cerrar sesión" />
     </group>
