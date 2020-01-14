@@ -24,8 +24,8 @@ import com.example.fabik.parkingapp.Adaptadores.AdaptadorListaMain;
 import com.example.fabik.parkingapp.Adaptadores.RecyOnItemClickListener;
 import com.example.fabik.parkingapp.BD.AdminSQLiteOpenHelper;
 import com.example.fabik.parkingapp.BD.Utilidades;
-import com.example.fabik.parkingapp.Entidades.Facturados;
-import com.example.fabik.parkingapp.Entidades.Ingresados;
+import com.example.fabik.parkingapp.Modelos.Facturados;
+import com.example.fabik.parkingapp.Modelos.Ingresados;
 import com.example.fabik.parkingapp.Fragments.BottomNavigationDrawerFragment;
 import com.example.fabik.parkingapp.Printer.PrintManager;
 import com.example.fabik.parkingapp.Printer.viewInterface;
@@ -78,16 +78,13 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
         bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                String mensaje;
+                String mensaje = "";
                 switch (item.getItemId()) {
-                    case R.id.home:
-                        mensaje = "home";
-                        break;
                     case R.id.buscar:
                         mensaje = "buscar";
                         break;
                     case R.id.filter:
-                        mensaje = "filter";
+                        startActivity(new Intent(ListadoMain.this, ConfiguracionActivity.class));
                         break;
                     default:
                         mensaje=" desconocido";
@@ -116,7 +113,7 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
     private List<Ingresados> getListIngresados() {
         List<Ingresados> listaIngresados = new ArrayList<>();
 
-        SQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
+        SQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase db = admin.getReadableDatabase();
 
         Ingresados ingresados = null;
@@ -263,7 +260,7 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
 
 
     public void EliminarAgregar(Facturados facturados) {
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         int cant = bd.delete(Utilidades.TABLA_1, Utilidades.CAMPO_ID + "=" + facturados.getId(), null);
 

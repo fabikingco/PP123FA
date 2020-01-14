@@ -1,4 +1,4 @@
-package com.example.fabik.parkingapp.Entidades;
+package com.example.fabik.parkingapp.Modelos;
 
 import java.io.Serializable;
 

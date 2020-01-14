@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fabik.parkingapp.BD.AdminSQLiteOpenHelper;
 import com.example.fabik.parkingapp.BD.Utilidades;
-import com.example.fabik.parkingapp.Entidades.Facturados;
+import com.example.fabik.parkingapp.Modelos.Facturados;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public class ListadoTotal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado_total);
 
-        admin= new AdminSQLiteOpenHelper(this, "administracion", null,1);
+        admin= new AdminSQLiteOpenHelper(this);
         listViewFacturados = findViewById(R.id.lv1);
 
         consultarListaVehiculos();

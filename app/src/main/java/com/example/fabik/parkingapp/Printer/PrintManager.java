@@ -1,14 +1,12 @@
 package com.example.fabik.parkingapp.Printer;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.widget.Toast;
 
-import com.example.fabik.parkingapp.Entidades.Facturados;
+import com.example.fabik.parkingapp.Modelos.Facturados;
 import com.example.fabik.parkingapp.Global;
 import com.example.fabik.parkingapp.Printer.utils.LogUtil;
 //import com.fabianardila.wpossappsmartposterminal.Comun.Global;

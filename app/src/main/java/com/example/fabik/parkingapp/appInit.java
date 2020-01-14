@@ -14,8 +14,8 @@ import com.pos.device.SDKManagerCallback;
 
 public class appInit extends Application {
 
-
     public static Context appContext;
+
     @Override
     public void onCreate() {
         super.onCreate();

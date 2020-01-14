@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fabik.parkingapp.Entidades.Ingresados;
+import com.example.fabik.parkingapp.Modelos.Ingresados;
 import com.example.fabik.parkingapp.R;
 
 import java.util.List;

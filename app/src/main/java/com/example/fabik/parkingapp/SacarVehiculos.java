@@ -48,7 +48,7 @@ public class SacarVehiculos extends AppCompatActivity {
         placa = findViewById(R.id.et_s_Placa);
         Global.Placa = placa.getText().toString();
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         String[] pl ={Global.Placa};
 
@@ -149,7 +149,7 @@ public class SacarVehiculos extends AppCompatActivity {
     }
 
     public void EliminarAgregar(){
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         int cant = bd.delete(Utilidades.TABLA_1, Utilidades.CAMPO_ID+"=" + Global.Id, null);
 

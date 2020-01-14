@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fabik.parkingapp.BD.AdminSQLiteOpenHelper;
 import com.example.fabik.parkingapp.BD.Utilidades;
-import com.example.fabik.parkingapp.Entidades.Ingresados;
+import com.example.fabik.parkingapp.Modelos.Ingresados;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public class ListarVehiculos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listar_vehiculos);
 
-        admin= new AdminSQLiteOpenHelper(this, "administracion", null,1);
+        admin= new AdminSQLiteOpenHelper(this);
         listViewIngresados = findViewById(R.id.lv1);
 
         consultarListaVehiculos();

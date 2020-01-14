@@ -86,7 +86,7 @@ public class IngresarVehiculos extends AppCompatActivity {
     }
 
     private void BaseDeDatos (){
-        AdminSQLiteOpenHelper admin= new AdminSQLiteOpenHelper(this, "administracion", null,1);
+        AdminSQLiteOpenHelper admin= new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
 
         ContentValues insetar = new ContentValues();

@@ -1,6 +1,6 @@
 package com.example.fabik.parkingapp.Adaptadores;
 
-import com.example.fabik.parkingapp.Entidades.Ingresados;
+import com.example.fabik.parkingapp.Modelos.Ingresados;
 
 public interface RecyOnItemClickListener {
 
