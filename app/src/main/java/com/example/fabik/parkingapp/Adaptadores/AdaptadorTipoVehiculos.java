@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,9 +50,11 @@ public class AdaptadorTipoVehiculos extends RecyclerView.Adapter<AdaptadorTipoVe
 
         ImageButton imgButton;
         TextView tvTitulo;
+        LinearLayout tiposDeVehiculos;
 
         public HolderTipoVehiculos(@NonNull View itemView) {
             super(itemView);
+            tiposDeVehiculos = itemView.findViewById(R.id.tiposDeVehiculos);
             tvTitulo = itemView.findViewById(R.id.tvTitulo);
             imgButton = itemView.findViewById(R.id.imgButton);
         }
