@@ -6,28 +6,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".ListadoMain">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvTitulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:text="Parking App"
-            android:fontFamily="@font/open_sans"
-            android:textColor="@android:color/black"
-            android:textSize="22sp" />
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <RelativeLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:padding="10dp"
+            >
+
+            <TextView
+                android:id="@+id/tvTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parking App"
+                android:fontFamily="@font/open_sans"
+                android:textColor="@android:color/black"
+                android:layout_centerVertical="true"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Conexión impresora"
+                android:fontFamily="@font/open_sans"
+                android:textColor="@android:color/black"
+                android:layout_toStartOf="@id/imgStatus"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:paddingEnd="8dp"
+                />
+
+            <ImageView
+                android:id="@+id/imgStatus"
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_remove_circle_red"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcy01"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tvTitulo"
+            android:layout_below="@+id/linear"
             android:layout_marginTop="10dp"
             android:clipToPadding="false"
             android:paddingBottom="45dp" />
