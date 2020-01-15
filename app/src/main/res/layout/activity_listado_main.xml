@@ -39,6 +39,7 @@
                 android:textSize="22sp" />
 
             <TextView
+                android:id="@+id/tvConexion"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Conexión impresora"
@@ -46,6 +47,7 @@
                 android:textColor="@android:color/black"
                 android:layout_toStartOf="@id/imgStatus"
                 android:layout_centerVertical="true"
+                android:clickable="true"
                 android:gravity="center"
                 android:textSize="14sp"
                 android:paddingEnd="8dp"
@@ -55,10 +57,8 @@
                 android:id="@+id/imgStatus"
                 android:layout_width="25dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_remove_circle_red"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                />
+                android:src="@drawable/ic_remove_circle_red" />
 
         </RelativeLayout>
 

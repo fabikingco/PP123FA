@@ -1,5 +1,6 @@
 package com.example.fabik.parkingapp;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -8,12 +9,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,6 +36,15 @@ import com.example.fabik.parkingapp.Printer.viewInterface;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mazenrashed.printooth.Printooth;
+import com.mazenrashed.printooth.data.converter.ArabicConverter;
+import com.mazenrashed.printooth.data.printable.Printable;
+import com.mazenrashed.printooth.data.printable.RawPrintable;
+import com.mazenrashed.printooth.data.printable.TextPrintable;
+import com.mazenrashed.printooth.data.printer.DefaultPrinter;
+import com.mazenrashed.printooth.ui.ScanningActivity;
+import com.mazenrashed.printooth.utilities.Printing;
+import com.mazenrashed.printooth.utilities.PrintingCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,13 +61,37 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
     private BottomAppBar bottomAppBar;
     private List<Ingresados> listaVehiculoIngresados;
     public static viewInterface listener;
-    private ImageView imageView;
+    private ImageView imageView, imgStatus;
+    private TextView tvConexion;
+
+    private Printing printing = null;
+    PrintingCallback printingCallback = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado_main);
+        if (Printooth.INSTANCE.hasPairedPrinter())
+            printing = Printooth.INSTANCE.printer();
+
         imageView = findViewById(R.id.imagenPrincipal);
+
+        initStatusPrinter();
+        initListeners();
+
+        tvConexion = findViewById(R.id.tvConexion);
+        tvConexion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Printooth.INSTANCE.hasPairedPrinter()) {
+                    Printooth.INSTANCE.removeCurrentPrinter();
+                } else {
+                    startActivityForResult(new Intent(ListadoMain.this, ScanningActivity.class), ScanningActivity.SCANNING_FOR_PRINTER);
+                }
+                initStatusPrinter();
+            }
+        });
+
         listaVehiculoIngresados = getListIngresados();
         recyclerView = findViewById(R.id.rcy01);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -65,9 +102,19 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ListadoMain.this, IngresarVehiculos.class));
+                printSomePrintable();
+                //startActivity(new Intent(ListadoMain.this, IngresarVehiculos.class));
             }
         });
+    }
+
+    private void initStatusPrinter() {
+        imgStatus = findViewById(R.id.imgStatus);
+        if (Printooth.INSTANCE.getPairedPrinter() != null) {
+            if (Printooth.INSTANCE.hasPairedPrinter()) {
+                imgStatus.setImageDrawable(getDrawable(R.drawable.ic_check_circle_green));
+            }
+        }
     }
 
     private void setUpBottomAppBar() {
@@ -294,5 +341,113 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
     private void cargarAdaptador(List<Ingresados> lista) {
         AdaptadorListaMain adapter = new AdaptadorListaMain(this, lista, R.layout.item_listado_main, this);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("xxx", "onActivityResult "+requestCode);
+
+        if (requestCode == ScanningActivity.SCANNING_FOR_PRINTER && resultCode == Activity.RESULT_OK) {
+            initListeners();
+            printSomePrintable();
+        }
+        initStatusPrinter();
+    }
+
+    private void initListeners() {
+        if (printing!=null && printingCallback==null) {
+            Log.d("xxx", "initListeners ");
+            printingCallback = new PrintingCallback() {
+
+                public void connectingWithPrinter() {
+                    Toast.makeText(getApplicationContext(), "Connecting with printer", Toast.LENGTH_SHORT).show();
+                    Log.d("xxx", "Connecting");
+                }
+                public void printingOrderSentSuccessfully() {
+                    Toast.makeText(getApplicationContext(), "printingOrderSentSuccessfully", Toast.LENGTH_SHORT).show();
+                    Log.d("xxx", "printingOrderSentSuccessfully");
+                }
+                public void connectionFailed(@NonNull String error) {
+                    Toast.makeText(getApplicationContext(), "connectionFailed :"+error, Toast.LENGTH_SHORT).show();
+                    Log.d("xxx", "connectionFailed : "+error);
+                }
+                public void onError(@NonNull String error) {
+                    Toast.makeText(getApplicationContext(), "onError :"+error, Toast.LENGTH_SHORT).show();
+                    Log.d("xxx", "onError : "+error);
+                }
+                public void onMessage(@NonNull String message) {
+                    Toast.makeText(getApplicationContext(), "onMessage :" +message, Toast.LENGTH_SHORT).show();
+                    Log.d("xxx", "onMessage : "+message);
+                }
+            };
+
+            Printooth.INSTANCE.printer().setPrintingCallback(printingCallback);
+        }
+    }
+
+    private void printSomePrintable() {
+        Log.d("xxx", "printSomePrintable ");
+        printing.print(getSomePrintables());
+//        if (printing!=null)
+//            printing.print(getSomePrintables());
+    }
+
+    private ArrayList<Printable> getSomePrintables() {
+        ArrayList<Printable> al = new ArrayList<>();
+        al.add(new RawPrintable.Builder(new byte[]{27, 100, 4}).build()); // feed lines example in raw mode
+
+        al.add( (new TextPrintable.Builder())
+                .setText("Prueba de impresión ")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC1252())
+                .setNewLinesAfter(1)
+                .build());
+        al.add( (new TextPrintable.Builder())
+                .setText("Prueba de impresión ")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
+                .setNewLinesAfter(1)
+                .build());
+
+        al.add( (new TextPrintable.Builder())
+                .setText(" Hello World : été è à '€' içi Bò Xào Coi Xanh")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC1252())
+                .setNewLinesAfter(1)
+                .build());
+
+        al.add( (new TextPrintable.Builder())
+                .setText("Hello World : été è à €")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC1252())
+                .setNewLinesAfter(1)
+                .build());
+
+        al.add( (new TextPrintable.Builder())
+                .setText("Hello World")
+                .setLineSpacing(DefaultPrinter.Companion.getLINE_SPACING_60())
+                .setAlignment(DefaultPrinter.Companion.getALIGNMENT_CENTER())
+                .setEmphasizedMode(DefaultPrinter.Companion.getEMPHASIZED_MODE_BOLD())
+                .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
+                .setNewLinesAfter(1)
+                .build());
+
+        al.add( (new TextPrintable.Builder())
+                .setText("Hello World")
+                .setAlignment(DefaultPrinter.Companion.getALIGNMENT_RIGHT())
+                .setEmphasizedMode(DefaultPrinter.Companion.getEMPHASIZED_MODE_BOLD())
+                .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
+                .setNewLinesAfter(1)
+                .build());
+
+        al.add( (new TextPrintable.Builder())
+                .setText("اختبار العربية")
+                .setAlignment(DefaultPrinter.Companion.getALIGNMENT_CENTER())
+                .setEmphasizedMode(DefaultPrinter.Companion.getEMPHASIZED_MODE_BOLD())
+                .setFontSize(DefaultPrinter.Companion.getFONT_SIZE_NORMAL())
+                .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_ARABIC_FARISI())
+                .setNewLinesAfter(1)
+                .setCustomConverter(new ArabicConverter()) // change only the converter for this one
+                .build());
+
+        return al;
     }
 }
