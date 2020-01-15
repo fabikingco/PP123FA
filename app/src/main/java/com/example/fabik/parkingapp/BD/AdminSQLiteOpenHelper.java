@@ -11,7 +11,7 @@ import com.example.fabik.parkingapp.TiposDeVehiculosActivity;
 
 import java.util.ArrayList;
 
-public class AdminSQLiteOpenHelper extends SQLiteOpenHelper{
+public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static int DATABASE_VERSION = 2;
 

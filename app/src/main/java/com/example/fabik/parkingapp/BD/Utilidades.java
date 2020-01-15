@@ -12,8 +12,8 @@ public class Utilidades {
     public static final String CAMPO_TIPO = "tipo";
 
     public static final String CREAR_TABLA_ING =
-            "CREATE TABLE " +TABLA_1+" " +
-                    "("+CAMPO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+CAMPO_PLACA+" TEXT,"+CAMPO_FECHA_ING+" TEXT, "+CAMPO_TIPO+" TEXT)";
+            "CREATE TABLE " + TABLA_1 + " " +
+                    "(" + CAMPO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CAMPO_PLACA + " TEXT," + CAMPO_FECHA_ING + " TEXT, " + CAMPO_TIPO + " TEXT)";
 
 
     //Campos constantes de la base de datos
@@ -27,16 +27,16 @@ public class Utilidades {
     public static final String CAMPO_MINUTO2 = "minuto";
 
     public static final String CREAR_TABLA_SAL =
-            "CREATE TABLE " +TABLA_2+" " +
-                    "("+CAMPO_ID2 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "CREATE TABLE " + TABLA_2 + " " +
+                    "(" + CAMPO_ID2 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     CAMPO_PLACA2 + " TEXT," +
                     CAMPO_FECHA_ING2 + " TEXT, " +
                     CAMPO_FECHA_SAL2 + " TEXT, " +
                     CAMPO_TIPO2 + " TEXT, " +
                     CAMPO_PAGO2 + " TEXT, " +
-                    CAMPO_MINUTO2 +" TEXT)";
+                    CAMPO_MINUTO2 + " TEXT)";
 
-    public static final String TABLA_TIPOS_VEHICULOS = "table_tipos_vehiculos";
+    public static final String TABLA_TIPOS_VEHICULOS = "tipos_vehiculos";
     public static final String TIPOS_ID = "id";
     public static final String TIPOS_NAME = "name";
     public static final String TIPOS_IMG = "img";
@@ -52,10 +52,14 @@ public class Utilidades {
                     TIPOS_PRECIO + " TEXT)";
 
 
-
     public static final String InsertVehiculo = "INSERT INTO " + TABLA_TIPOS_VEHICULOS + " (" + TIPOS_NAME + ", " + TIPOS_IMG + ", " + TIPOS_MODO + ", " + TIPOS_PRECIO +
             ") VALUES ('Automovil', " + R.drawable.coche_basic + ", 'HORA', '2000');";
 
+    public static final String TABLE_COMERCIO = "comercio";
+    public static final String COMERCIO_ID = "id";
+    public static final String COMERCIO_NAME = "name";
+    public static final String COMERCIO_PAIS = "pais";
+    public static final String COMERCIO_MONEDA = "moneda";
 
 }
 
