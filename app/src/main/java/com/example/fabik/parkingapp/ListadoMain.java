@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -32,6 +33,7 @@ import com.example.fabik.parkingapp.Modelos.Facturados;
 import com.example.fabik.parkingapp.Modelos.Ingresados;
 import com.example.fabik.parkingapp.Fragments.BottomNavigationDrawerFragment;
 import com.example.fabik.parkingapp.Printer.PrintManager;
+import com.example.fabik.parkingapp.Printer.utils.LogUtil;
 import com.example.fabik.parkingapp.Printer.viewInterface;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -45,6 +47,8 @@ import com.mazenrashed.printooth.data.printer.DefaultPrinter;
 import com.mazenrashed.printooth.ui.ScanningActivity;
 import com.mazenrashed.printooth.utilities.Printing;
 import com.mazenrashed.printooth.utilities.PrintingCallback;
+import com.pos.device.SDKManager;
+import com.pos.device.SDKManagerCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,8 +75,11 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado_main);
-        if (Printooth.INSTANCE.hasPairedPrinter())
-            printing = Printooth.INSTANCE.printer();
+        if (!Build.MODEL.equals("NEW9220") && !Build.MODEL.equals("Android SDK built for x86") && !Build.MODEL.equals("i80")) {
+            if (Printooth.INSTANCE.hasPairedPrinter())
+                printing = Printooth.INSTANCE.printer();
+        }
+
 
         imageView = findViewById(R.id.imagenPrincipal);
 
@@ -83,12 +90,14 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
         tvConexion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Printooth.INSTANCE.hasPairedPrinter()) {
-                    Printooth.INSTANCE.removeCurrentPrinter();
-                } else {
-                    startActivityForResult(new Intent(ListadoMain.this, ScanningActivity.class), ScanningActivity.SCANNING_FOR_PRINTER);
+                if (!Build.MODEL.equals("NEW9220") && !Build.MODEL.equals("Android SDK built for x86") && !Build.MODEL.equals("i80")) {
+                    if (Printooth.INSTANCE.hasPairedPrinter()) {
+                        Printooth.INSTANCE.removeCurrentPrinter();
+                        imgStatus.setImageDrawable(getDrawable(R.drawable.ic_remove_circle_red));
+                    } else {
+                        startActivityForResult(new Intent(ListadoMain.this, ScanningActivity.class), ScanningActivity.SCANNING_FOR_PRINTER);
+                    }
                 }
-                initStatusPrinter();
             }
         });
 
@@ -102,19 +111,25 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                printSomePrintable();
-                //startActivity(new Intent(ListadoMain.this, IngresarVehiculos.class));
+                //printSomePrintable();
+                startActivity(new Intent(ListadoMain.this, IngresarVehiculos.class));
             }
         });
     }
 
     private void initStatusPrinter() {
         imgStatus = findViewById(R.id.imgStatus);
-        if (Printooth.INSTANCE.getPairedPrinter() != null) {
-            if (Printooth.INSTANCE.hasPairedPrinter()) {
-                imgStatus.setImageDrawable(getDrawable(R.drawable.ic_check_circle_green));
+        if (Build.MODEL.equals("NEW9220") || Build.MODEL.equals("Android SDK built for x86") || Build.MODEL.equals("i80")) {
+            imgStatus.setImageDrawable(getDrawable(R.drawable.ic_check_circle_green));
+        } else {
+            if (Printooth.INSTANCE.getPairedPrinter() != null) {
+                if (Printooth.INSTANCE.hasPairedPrinter()) {
+                    imgStatus.setImageDrawable(getDrawable(R.drawable.ic_check_circle_green));
+                }
             }
         }
+
+
     }
 
     private void setUpBottomAppBar() {

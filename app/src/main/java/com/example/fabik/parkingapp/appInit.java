@@ -3,6 +3,7 @@ package com.example.fabik.parkingapp;
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import com.example.fabik.parkingapp.Printer.PrintManager;
 import com.example.fabik.parkingapp.Printer.utils.LogUtil;
@@ -37,7 +38,12 @@ public class appInit extends Application {
                 }
             });
             PrintManager.init(getApplicationContext());
-        } else {
+        } else if (Build.MODEL.equals("Android SDK built for x86")){
+            Log.d("Modelo sin impresion", "No se impreme");
+        } else if (Build.MODEL.equals("i80")) {
+            Log.d("POS SUNYARD", "No carga info");
+        }
+        else {
             Printooth.INSTANCE.init(this);
         }
 
