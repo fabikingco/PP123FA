@@ -11,20 +11,25 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fabik.parkingapp.Adaptadores.AdaptadorTipoVehiculos;
 import com.example.fabik.parkingapp.BD.AdminSQLiteOpenHelper;
 import com.example.fabik.parkingapp.BD.Utilidades;
+import com.example.fabik.parkingapp.Modelos.TipoVehiculos;
 import com.example.fabik.parkingapp.Printer.Presenter;
 import com.example.fabik.parkingapp.Printer.PrintManager;
 import com.example.fabik.parkingapp.Printer.viewInterface;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class IngresarVehiculos extends AppCompatActivity {
 
     EditText placa;
-    private RadioButton rbAuto, rbMoto;
+    RecyclerView opcionesVechiculos;
 
     private Presenter presenter;
     public static viewInterface listener; //Para la impresion
@@ -38,8 +43,14 @@ public class IngresarVehiculos extends AppCompatActivity {
 
         setTitle("Ingresar Vehiculos");
 
-        rbAuto = findViewById(R.id.rbAuto);
-        rbMoto = findViewById(R.id.rbMoto);
+        opcionesVechiculos = findViewById(R.id.opcionesVechiculos);
+        opcionesVechiculos.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+
+
+        AdminSQLiteOpenHelper bd = new AdminSQLiteOpenHelper(this);
+        ArrayList<TipoVehiculos> arrayList = bd.tiposDeVehiculos();
+        AdaptadorTipoVehiculos tipoVehiculos = new AdaptadorTipoVehiculos(this, arrayList);
+        opcionesVechiculos.setAdapter(tipoVehiculos);
 
     }
 
@@ -48,12 +59,12 @@ public class IngresarVehiculos extends AppCompatActivity {
         placa = findViewById(R.id.et_i_Placa);
         Global.Placa = placa.getText().toString();
 
-        if (rbAuto.isChecked()==true){
+        /*if (rbAuto.isChecked()==true){
             Global.Tipo = "Automovil";
         } else
         if (rbMoto.isChecked()==true) {
             Global.Tipo = "Motocicleta";
-        }
+        }*/
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Ingreso de Vehiculo");
