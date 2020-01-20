@@ -5,7 +5,7 @@ public class TipoVehiculos {
     private int id;
     private String name;
     private int img;
-    private String modo;
+    private String modo;  //segundos, minutos, hora, dia, semana, quincena, mes.
     private String precio;
 
     public TipoVehiculos() {

@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.fabik.parkingapp.BD.Utilidades;
+import com.example.fabik.parkingapp.Modelos.Comercio;
 import com.example.fabik.parkingapp.Modelos.TipoVehiculos;
 import com.example.fabik.parkingapp.TiposDeVehiculosActivity;
 
@@ -26,6 +27,7 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL(Utilidades.CREAR_TABLA_SAL);
         db.execSQL(Utilidades.CREAR_TABLA_TIPO);
         db.execSQL(Utilidades.InsertVehiculo);
+        db.execSQL(Utilidades.CREAR_TABLA_COMERCIO);
     }
 
     @Override
@@ -50,6 +52,19 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return tipos;
+    }
+
+    public Comercio getComercioBD () {
+        Comercio comercio = new Comercio();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM " + Utilidades.TABLE_COMERCIO;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            comercio.setName();
+        }
+
+        return comercio;
     }
 
 

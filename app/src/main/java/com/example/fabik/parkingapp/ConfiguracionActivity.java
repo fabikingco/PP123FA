@@ -28,7 +28,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
         seleccionPaisMoneda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ConfiguracionActivity.this, ConfigPaisMonedaActivity.class));
+                startActivity(new Intent(ConfiguracionActivity.this, ConfigMondedaActivity.class));
             }
         });
     }

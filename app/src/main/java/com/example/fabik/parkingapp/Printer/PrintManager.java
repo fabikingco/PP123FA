@@ -12,6 +12,11 @@ import com.example.fabik.parkingapp.Printer.utils.LogUtil;
 //import com.fabianardila.wpossappsmartposterminal.Comun.Global;
 //import com.fabianardila.wpossappsmartposterminal.Comun.Utils;
 //import com.fabianardila.wpossappsmartposterminal.Printer.utils.LogUtil;
+import com.mazenrashed.printooth.Printooth;
+import com.mazenrashed.printooth.data.printable.Printable;
+import com.mazenrashed.printooth.data.printable.RawPrintable;
+import com.mazenrashed.printooth.data.printable.TextPrintable;
+import com.mazenrashed.printooth.data.printer.DefaultPrinter;
 import com.pos.device.config.DevConfig;
 import com.pos.device.printer.PrintCanvas;
 import com.pos.device.printer.PrintTask;
@@ -25,6 +30,7 @@ import com.socsi.smartposapi.printer.TextEntity;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -117,7 +123,7 @@ public class PrintManager {;
         int ret = 0;
         if (Build.MODEL.equals("i80")) {
             Printer2 print = Printer2.getInstance();
-            print.appendTextEntity2(new TextEntity("PARQUEADERO", null, true, Align.CENTER));
+            print.appendTextEntity2(new TextEntity("Parking APP", null, true, Align.CENTER));
             print.appendTextEntity2(new TextEntity("Sistema de recargas", FontLattice.THIRTY_TWO, true, Align.CENTER));
             print.appendTextEntity2(new TextEntity(" ", null, false, null));
             print.appendTextEntity2(new TextEntity("Comercio de Prueba", null, true, Align.CENTER));
@@ -158,7 +164,7 @@ public class PrintManager {;
                 printLine(paint, canvas);
                 setFontStyle(paint, 3, true);
                 canvas.setX(0);
-                canvas.drawText("          PARQUEADERO        ", paint);
+                canvas.drawText("          Parking APP        ", paint);
                 printLine(paint, canvas);
 
                 setFontStyle(paint, 2, true);
@@ -193,6 +199,26 @@ public class PrintManager {;
                     return -1;
                 }
             }
+        } else if (Build.MODEL.equals("Android SDK built for x86")) {
+
+        } else {
+            if (Printooth.INSTANCE.hasPairedPrinter()) {
+
+            }
+            ArrayList<Printable> al = new ArrayList<>();
+            al.add(new RawPrintable.Builder(new byte[]{27, 100, 4}).build());
+            al.add( (new TextPrintable.Builder())
+                    .setText("Parking APP")
+                    .setAlignment(DefaultPrinter.Companion.getALIGNMENT_CENTER())
+                    .setEmphasizedMode(DefaultPrinter.Companion.getEMPHASIZED_MODE_BOLD())
+                    .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
+                    .setNewLinesAfter(1)
+                    .build());
+            al.add( (new TextPrintable.Builder())
+                    .setText("Parking APP")
+                    .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
+                    .setNewLinesAfter(1)
+                    .build());
         }
         return ret;
     }
@@ -201,7 +227,7 @@ public class PrintManager {;
         int ret = 0;
         if (Build.MODEL.equals("i80")) {
             Printer2 print = Printer2.getInstance();
-            print.appendTextEntity2(new TextEntity("PARQUEADERO", null, true, Align.CENTER));
+            print.appendTextEntity2(new TextEntity("Parking APP", null, true, Align.CENTER));
             print.appendTextEntity2(new TextEntity("Sistema de recargas", FontLattice.THIRTY_TWO, true, Align.CENTER));
             print.appendTextEntity2(new TextEntity(" ", null, false, null));
             print.appendTextEntity2(new TextEntity("Comercio de Prueba", null, true, Align.CENTER));

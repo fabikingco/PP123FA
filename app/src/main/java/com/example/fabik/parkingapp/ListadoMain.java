@@ -405,7 +405,7 @@ public class ListadoMain extends AppCompatActivity implements RecyOnItemClickLis
         Log.d("xxx", "printSomePrintable ");
         printing.print(getSomePrintables());
 //        if (printing!=null)
-//            printing.print(getSomePrintables());
+            printing.print(getSomePrintables());
     }
 
     private ArrayList<Printable> getSomePrintables() {

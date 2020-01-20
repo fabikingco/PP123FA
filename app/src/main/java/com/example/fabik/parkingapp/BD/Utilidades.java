@@ -56,10 +56,43 @@ public class Utilidades {
             ") VALUES ('Automovil', " + R.drawable.coche_basic + ", 'HORA', '2000');";
 
     public static final String TABLE_COMERCIO = "comercio";
-    public static final String COMERCIO_ID = "id";
-    public static final String COMERCIO_NAME = "name";
-    public static final String COMERCIO_PAIS = "pais";
-    public static final String COMERCIO_MONEDA = "moneda";
+
+    public static final String comercio_id = "id";
+    public static final String comercio_name = "name";
+    public static final String comercio_documento = "documento";
+    public static final String comercio_direccion = "direccion";
+    public static final String comercio_ciudad = "ciudad";
+    public static final String comercio_estado = "estado";
+    public static final String comercio_pais = "pais";
+    public static final String comercio_telefono1 = "telefono1";
+    public static final String comercio_telefono2 = "telefono2";
+    public static final String comercio_header1 = "header1";
+    public static final String comercio_header2 = "header2";
+    public static final String comercio_footing1 = "footing1";
+    public static final String comercio_footing2 = "footing2";
+    public static final String comercio_moneda = "moneda";
+    public static final String comercio_simboloMoneda = "simboloMoneda";
+    public static final String comercio_centavos = "centavos";
+
+    public static final String CREAR_TABLA_COMERCIO =
+            "CREATE TABLE " + TABLE_COMERCIO +
+                    " (" + comercio_id + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    comercio_name + " TEXT, " +
+                    comercio_documento + " TEXT, " +
+                    comercio_direccion + " TEXT, " +
+                    comercio_ciudad + " TEXT, " +
+                    comercio_estado + " TEXT, " +
+                    comercio_pais + " TEXT, " +
+                    comercio_telefono1 + " TEXT, " +
+                    comercio_telefono2 + " TEXT, " +
+                    comercio_header1 + " TEXT, " +
+                    comercio_header2 + " TEXT, " +
+                    comercio_footing1 + " TEXT, " +
+                    comercio_footing2 + " TEXT, " +
+                    comercio_moneda + " TEXT, " +
+                    comercio_simboloMoneda + " TEXT, " +
+                    comercio_centavos + " BOOLEAN)";
+
 
 }
 

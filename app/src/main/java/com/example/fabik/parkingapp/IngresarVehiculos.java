@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,10 +27,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class IngresarVehiculos extends AppCompatActivity {
+public class IngresarVehiculos extends AppCompatActivity implements AdaptadorTipoVehiculos.OnItemClickListenerTipo{
 
     EditText placa;
     RecyclerView opcionesVechiculos;
+    ArrayList<TipoVehiculos> arrayList;
 
     private Presenter presenter;
     public static viewInterface listener; //Para la impresion
@@ -41,20 +43,21 @@ public class IngresarVehiculos extends AppCompatActivity {
 
         presenter = new Presenter(callback,this); //Inicializar impresora
 
-        setTitle("Ingresar Vehiculos");
+        //setTitle("Ingresar Vehiculos");
 
         opcionesVechiculos = findViewById(R.id.opcionesVechiculos);
         opcionesVechiculos.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
 
         AdminSQLiteOpenHelper bd = new AdminSQLiteOpenHelper(this);
-        ArrayList<TipoVehiculos> arrayList = bd.tiposDeVehiculos();
+        arrayList = bd.tiposDeVehiculos();
         AdaptadorTipoVehiculos tipoVehiculos = new AdaptadorTipoVehiculos(this, arrayList);
+        tipoVehiculos.setOnItemClickListener(this);
         opcionesVechiculos.setAdapter(tipoVehiculos);
 
     }
 
-    public void Nuevo_Ingreso(View view) {
+    public void Nuevo_Ingreso(TipoVehiculos tipoVehiculos) {
 
         placa = findViewById(R.id.et_i_Placa);
         Global.Placa = placa.getText().toString();
@@ -66,9 +69,11 @@ public class IngresarVehiculos extends AppCompatActivity {
             Global.Tipo = "Motocicleta";
         }*/
 
+        Global.Tipo = tipoVehiculos.getName();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Ingreso de Vehiculo");
-        builder.setMessage("Esta seguro de ingresar "+Global.Tipo+" con placa "+Global.Placa);
+        builder.setMessage("Esta seguro de ingresar " + Global.Tipo + " con placa " + Global.Placa);
         builder.setPositiveButton("Confirmar",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -77,7 +82,7 @@ public class IngresarVehiculos extends AppCompatActivity {
                         SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
                         Calendar c = Calendar.getInstance();
                         Global.FechaIngreso = outputFormat.format(c.getTime());
-                        System.out.println("Prueba "+Global.FechaIngreso);
+                        System.out.println("Prueba " + Global.FechaIngreso);
                         BaseDeDatos();
                         PrintManager.getInstance().ImpresionTiqueteIngreso(listener);
                         startActivity(new Intent(IngresarVehiculos.this, ListadoMain.class));
@@ -118,5 +123,12 @@ public class IngresarVehiculos extends AppCompatActivity {
 
     public void btnBack(View view) {
         onBackPressed();
+    }
+
+    @Override
+    public void onItemClick(RecyclerView.ViewHolder item, int position, int id) {
+        TipoVehiculos tipoVehiculos = arrayList.get(position);
+        Toast.makeText(this, "" + tipoVehiculos.getName(), Toast.LENGTH_SHORT).show();
+
     }
 }

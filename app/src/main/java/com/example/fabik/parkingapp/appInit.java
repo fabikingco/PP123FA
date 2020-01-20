@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
+import com.example.fabik.parkingapp.Modelos.Comercio;
 import com.example.fabik.parkingapp.Printer.PrintManager;
 import com.example.fabik.parkingapp.Printer.utils.LogUtil;
 
@@ -19,11 +20,17 @@ import com.pos.device.SDKManagerCallback;
 public class appInit extends Application {
 
     public static Context appContext;
+    public static Comercio sComercio;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        cargarComercio();
         init();
+
+    }
+
+    private void cargarComercio() {
 
     }
 
