@@ -61,7 +61,7 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + Utilidades.TABLE_COMERCIO;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
-            comercio.setName();
+
         }
 
         return comercio;

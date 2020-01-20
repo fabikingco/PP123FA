@@ -76,7 +76,7 @@ public class Utilidades {
 
     public static final String CREAR_TABLA_COMERCIO =
             "CREATE TABLE " + TABLE_COMERCIO +
-                    " (" + comercio_id + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    " (" + comercio_id + " INTEGER PRIMARY KEY, " +
                     comercio_name + " TEXT, " +
                     comercio_documento + " TEXT, " +
                     comercio_direccion + " TEXT, " +
@@ -92,6 +92,10 @@ public class Utilidades {
                     comercio_moneda + " TEXT, " +
                     comercio_simboloMoneda + " TEXT, " +
                     comercio_centavos + " BOOLEAN)";
+
+    public static final int idComercio = 1;
+
+
 
 
 }
