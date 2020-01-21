@@ -129,6 +129,7 @@ public class IngresarVehiculos extends AppCompatActivity implements AdaptadorTip
     public void onItemClick(RecyclerView.ViewHolder item, int position, int id) {
         TipoVehiculos tipoVehiculos = arrayList.get(position);
         Toast.makeText(this, "" + tipoVehiculos.getName(), Toast.LENGTH_SHORT).show();
+        Nuevo_Ingreso(tipoVehiculos);
 
     }
 }

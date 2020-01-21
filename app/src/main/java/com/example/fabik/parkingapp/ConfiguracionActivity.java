@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 
 public class ConfiguracionActivity extends AppCompatActivity {
 
-    LinearLayout tiposDeVehiculos, seleccionPaisMoneda;
+    LinearLayout tiposDeVehiculos, seleccionPaisMoneda, datosDelComercio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,14 @@ public class ConfiguracionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ConfiguracionActivity.this, ConfigMondedaActivity.class));
+            }
+        });
+
+        datosDelComercio = findViewById(R.id.datosDelComercio);
+        datosDelComercio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ConfiguracionActivity.this, DatosComercioActivity.class));
             }
         });
     }

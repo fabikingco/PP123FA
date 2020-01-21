@@ -2,7 +2,7 @@ package com.example.fabik.parkingapp.Modelos;
 
 public class Comercio {
 
-    private String id;
+    private int id;
     private String name;
     private String documento;
     private String direccion;
@@ -22,9 +22,10 @@ public class Comercio {
     public Comercio() {
     }
 
-    public Comercio(String id, String name, String direccion, String ciudad, String estado, String pais, String telefono1, String telefono2, String header1, String header2, String footing1, String footing2, String moneda, String simboloMoneda) {
+    public Comercio(int id, String name, String documento, String direccion, String ciudad, String estado, String pais, String telefono1, String telefono2, String header1, String header2, String footing1, String footing2, String moneda, String simboloMoneda, boolean centavos) {
         this.id = id;
         this.name = name;
+        this.documento = documento;
         this.direccion = direccion;
         this.ciudad = ciudad;
         this.estado = estado;
@@ -37,13 +38,14 @@ public class Comercio {
         this.footing2 = footing2;
         this.moneda = moneda;
         this.simboloMoneda = simboloMoneda;
+        this.centavos = centavos;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -149,5 +151,21 @@ public class Comercio {
 
     public void setSimboloMoneda(String simboloMoneda) {
         this.simboloMoneda = simboloMoneda;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
+    }
+
+    public boolean isCentavos() {
+        return centavos;
+    }
+
+    public void setCentavos(boolean centavos) {
+        this.centavos = centavos;
     }
 }

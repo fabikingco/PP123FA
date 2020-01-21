@@ -28,6 +28,7 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL(Utilidades.CREAR_TABLA_TIPO);
         db.execSQL(Utilidades.InsertVehiculo);
         db.execSQL(Utilidades.CREAR_TABLA_COMERCIO);
+        db.execSQL("INSERT INTO comercio (id) VALUES (" + Utilidades.idComercio  + ")");
     }
 
     @Override
@@ -58,10 +59,12 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         Comercio comercio = new Comercio();
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "SELECT * FROM " + Utilidades.TABLE_COMERCIO;
+        String query = "SELECT * FROM " + Utilidades.TABLE_COMERCIO + " WHERE "
+                + Utilidades.comercio_id + " = " + Utilidades.idComercio;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
-
+            comercio.setId(cursor.getInt(0));
+            comercio.setName(cursor.getString(1));
         }
 
         return comercio;

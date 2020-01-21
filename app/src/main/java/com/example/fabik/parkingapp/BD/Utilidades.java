@@ -40,7 +40,7 @@ public class Utilidades {
     public static final String TIPOS_ID = "id";
     public static final String TIPOS_NAME = "name";
     public static final String TIPOS_IMG = "img";
-    public static final String TIPOS_MODO = "modo";
+    public static final String TIPOS_MODO = "modo"; //Segundos, minutos, hora, dia, semana, mes
     public static final String TIPOS_PRECIO = "precio";
 
     public static final String CREAR_TABLA_TIPO =
@@ -91,9 +91,15 @@ public class Utilidades {
                     comercio_footing2 + " TEXT, " +
                     comercio_moneda + " TEXT, " +
                     comercio_simboloMoneda + " TEXT, " +
-                    comercio_centavos + " BOOLEAN)";
+                    comercio_centavos + " INTEGER)";
 
-    public static final int idComercio = 1;
+    public static final int idComercio = 1;  //INSERT INTO comercio (id) VALUES (1);
+    // SELECT * FROM comercio WHERE id = 1;
+
+    // UPDATE comercio
+    //SET name = "Parqueadero Bucaramanga"
+    //WHERE
+    //id = 1;
 
 
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
+import com.example.fabik.parkingapp.BD.AdminSQLiteOpenHelper;
 import com.example.fabik.parkingapp.Modelos.Comercio;
 import com.example.fabik.parkingapp.Printer.PrintManager;
 import com.example.fabik.parkingapp.Printer.utils.LogUtil;
@@ -20,7 +21,7 @@ import com.pos.device.SDKManagerCallback;
 public class appInit extends Application {
 
     public static Context appContext;
-    public static Comercio sComercio;
+    public static Comercio sComercio = null;
 
     @Override
     public void onCreate() {
@@ -28,9 +29,13 @@ public class appInit extends Application {
         cargarComercio();
         init();
 
+
     }
 
     private void cargarComercio() {
+        AdminSQLiteOpenHelper bd = new AdminSQLiteOpenHelper(this);
+        sComercio = bd.getComercioBD();
+
 
     }
 
