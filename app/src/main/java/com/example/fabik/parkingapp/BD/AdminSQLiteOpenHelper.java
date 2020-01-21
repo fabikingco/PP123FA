@@ -1,5 +1,6 @@
 package com.example.fabik.parkingapp.BD;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -63,11 +64,41 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
                 + Utilidades.comercio_id + " = " + Utilidades.idComercio;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
-            comercio.setId(cursor.getInt(0));
-            comercio.setName(cursor.getString(1));
+            comercio.setId(cursor.getInt(cursor.getColumnIndex(Utilidades.comercio_id)));
+            comercio.setName(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_name)));
+            comercio.setDocumento(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_documento)));
+            comercio.setDireccion(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_direccion)));
+            comercio.setCiudad(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_ciudad)));
+            comercio.setEstado(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_estado)));
+            comercio.setPais(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_pais)));
+            comercio.setTelefono1(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_telefono1)));
+            comercio.setTelefono2(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_telefono2)));
+            comercio.setHeader1(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_header1)));
+            comercio.setHeader2(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_header2)));
+            comercio.setFooting1(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_footing1)));
+            comercio.setFooting2(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_footing2)));
+            comercio.setMoneda(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_moneda)));
+            comercio.setSimboloMoneda(cursor.getString(cursor.getColumnIndex(Utilidades.comercio_simboloMoneda)));
         }
 
         return comercio;
+    }
+
+    public boolean updateColumnStringComercio (String column, String dato) {
+        boolean ret = false;
+        SQLiteDatabase bd = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(column, dato);
+
+        String where = Utilidades.comercio_id + "=" + Utilidades.idComercio;
+        int rta = bd.update(Utilidades.TABLE_COMERCIO, values, where, null);
+        if (rta != -1) {
+            ret = true;
+        }
+        bd.close();
+        return ret;
+
     }
 
 

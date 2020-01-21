@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.fabik.parkingapp.BD.AdminSQLiteOpenHelper;
+import com.example.fabik.parkingapp.BD.Utilidades;
 import com.example.fabik.parkingapp.Fragments.DialogDataFragment;
 
 import static com.example.fabik.parkingapp.appInit.sComercio;
@@ -25,24 +27,26 @@ public class ConfigMondedaActivity extends AppCompatActivity {
     TextView tvMoneda, tvSimbolo;
     Switch swCentavos;
 
+    AdminSQLiteOpenHelper bd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config_moneda);
+
+        bd = new AdminSQLiteOpenHelper(this);
 
         initWidgets();
         onClickLinears();
 
         if (sComercio.getMoneda() != null) {
             moneda = sComercio.getMoneda();
-
-
+            tvMoneda.setText(sComercio.getMoneda());
         }
-
         if (sComercio.getSimboloMoneda() != null) {
             simbolo = sComercio.getSimboloMoneda();
+            tvSimbolo.setText(sComercio.getSimboloMoneda());
         }
-
         isCentavos = sComercio.isCentavos();
 
 
@@ -53,13 +57,50 @@ public class ConfigMondedaActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                DialogDataFragment  dialog = DialogDataFragment.newInstance("Parametro 1", "Parametro 2");
+                if (moneda != null) {
+                    moneda = "Euros";
+                }
+                DialogDataFragment  dialog = DialogDataFragment.newInstance("Moneda", Utils.checkNull(moneda));
+                dialog.setRequestCode(DIALOG_QUEST_CODE);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 transaction.add(android.R.id.content, dialog).addToBackStack(null).commit();
+                dialog.setmListener(new DialogDataFragment.OnFragmentInteractionListener() {
+                    @Override
+                    public void onFragmentInteraction(int requestCode, Object obj) {
+                        if (bd.updateColumnStringComercio(Utilidades.comercio_moneda, obj.toString())) {
+                            appInit.cargarComercio(ConfigMondedaActivity.this);
+                            tvMoneda.setText(obj.toString());
+                        }
 
+                    }
+                });
 
+            }
+        });
 
+        lySimbolo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                if (simbolo != null) {
+                    simbolo = "€";
+                }
+                DialogDataFragment  dialog = DialogDataFragment.newInstance("Simbolo de moneda", Utils.checkNull(simbolo));
+                dialog.setRequestCode(DIALOG_QUEST_CODE);
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                transaction.add(android.R.id.content, dialog).addToBackStack(null).commit();
+                dialog.setmListener(new DialogDataFragment.OnFragmentInteractionListener() {
+                    @Override
+                    public void onFragmentInteraction(int requestCode, Object obj) {
+                        if (bd.updateColumnStringComercio(Utilidades.comercio_moneda, obj.toString())) {
+                            appInit.cargarComercio(ConfigMondedaActivity.this);
+                            tvMoneda.setText(obj.toString());
+                        }
+
+                    }
+                });
             }
         });
     }

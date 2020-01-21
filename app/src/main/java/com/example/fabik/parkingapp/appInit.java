@@ -26,17 +26,15 @@ public class appInit extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        cargarComercio();
+        cargarComercio(this);
         init();
 
 
     }
 
-    private void cargarComercio() {
-        AdminSQLiteOpenHelper bd = new AdminSQLiteOpenHelper(this);
+    public static void cargarComercio(Context context) {
+        AdminSQLiteOpenHelper bd = new AdminSQLiteOpenHelper(context);
         sComercio = bd.getComercioBD();
-
-
     }
 
     private void init() {
