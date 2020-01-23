@@ -17,6 +17,7 @@ import com.mazenrashed.printooth.data.printable.Printable;
 import com.mazenrashed.printooth.data.printable.RawPrintable;
 import com.mazenrashed.printooth.data.printable.TextPrintable;
 import com.mazenrashed.printooth.data.printer.DefaultPrinter;
+import com.mazenrashed.printooth.utilities.Printing;
 import com.pos.device.config.DevConfig;
 import com.pos.device.printer.PrintCanvas;
 import com.pos.device.printer.PrintTask;
@@ -203,22 +204,27 @@ public class PrintManager {;
 
         } else {
             if (Printooth.INSTANCE.hasPairedPrinter()) {
+                Printing printing= Printooth.INSTANCE.printer();
+                ArrayList<Printable> al = new ArrayList<>();
+                al.add(new RawPrintable.Builder(new byte[]{27, 100, 4}).build());
+                al.add( (new TextPrintable.Builder())
+                        .setText("Parking APP")
+                        .setAlignment(DefaultPrinter.Companion.getALIGNMENT_CENTER())
+                        .setEmphasizedMode(DefaultPrinter.Companion.getEMPHASIZED_MODE_BOLD())
+                        .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
+                        .setNewLinesAfter(1)
+                        .build());
+                al.add( (new TextPrintable.Builder())
+                        .setText("Parking APP")
+                        .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
+                        .setNewLinesAfter(1)
+                        .build());
 
+                printing.print(al);
+            } else {
+                return -1;
             }
-            ArrayList<Printable> al = new ArrayList<>();
-            al.add(new RawPrintable.Builder(new byte[]{27, 100, 4}).build());
-            al.add( (new TextPrintable.Builder())
-                    .setText("Parking APP")
-                    .setAlignment(DefaultPrinter.Companion.getALIGNMENT_CENTER())
-                    .setEmphasizedMode(DefaultPrinter.Companion.getEMPHASIZED_MODE_BOLD())
-                    .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
-                    .setNewLinesAfter(1)
-                    .build());
-            al.add( (new TextPrintable.Builder())
-                    .setText("Parking APP")
-                    .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
-                    .setNewLinesAfter(1)
-                    .build());
+
         }
         return ret;
     }
