@@ -27,7 +27,9 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL(Utilidades.CREAR_TABLA_ING);
         db.execSQL(Utilidades.CREAR_TABLA_SAL);
         db.execSQL(Utilidades.CREAR_TABLA_TIPO);
-        db.execSQL(Utilidades.InsertVehiculo);
+        //db.execSQL(Utilidades.InsertVehiculo);
+        //db.execSQL(Utilidades.InsertMotoCicleta);
+        //db.execSQL(Utilidades.InsertBicicleta);
         db.execSQL(Utilidades.CREAR_TABLA_COMERCIO);
         db.execSQL("INSERT INTO comercio (id) VALUES (" + Utilidades.idComercio  + ")");
     }
