@@ -26,8 +26,8 @@ public class TiposDeVehiculosActivity extends AppCompatActivity implements Adapt
         recyclerView = findViewById(R.id.rvTipos);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
-        AdminSQLiteOpenHelper bd = new AdminSQLiteOpenHelper(this);
-        arrayList = bd.tiposDeVehiculos();
+        //AdminSQLiteOpenHelper bd = new AdminSQLiteOpenHelper(this);
+        //arrayList = bd.tiposDeVehiculos();
         arrayList.add(new TipoVehiculos(999, "Añadir nuevo", R.drawable.ic_add_black_24dp, "null", "null"));
 
         AdaptadorTipoVehiculos tipoVehiculos = new AdaptadorTipoVehiculos(this, arrayList);
