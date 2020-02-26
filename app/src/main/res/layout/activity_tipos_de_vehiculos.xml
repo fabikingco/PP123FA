@@ -77,12 +77,13 @@
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:text="Add Nuevo" />
-
+                android:text="Añadir Nuevo" />
+-
             <Button
             android:id="@+id/addnuevo"
             android:layout_width="40dp"
             android:layout_height="match_parent"
+            android:onClick="onclick"
             android:drawableEnd="@drawable/ic_add_black_24dp"></Button>
 
         </LinearLayout>
