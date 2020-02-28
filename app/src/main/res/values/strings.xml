@@ -17,7 +17,4 @@
     <string name="buscar">buscar</string>
     <string name="settings">Configuración</string>
     <string name="no_data">No data</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

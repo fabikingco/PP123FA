@@ -34,10 +34,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".IngresarVehiculos" />
-        <activity android:name=".SacarVehiculos" />
-        <activity android:name=".ListarVehiculos" />
         <activity android:name=".ListadoTotal" />
-        <activity android:name=".MenuPrincipal" />
     </application>
 
 </manifest>

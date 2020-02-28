@@ -73,9 +73,6 @@
 
     </RelativeLayout>
 
-
-
-
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/appbar"
         style="@style/Widget.MaterialComponents.BottomAppBar"
@@ -102,6 +99,7 @@
         android:layout_height="match_parent"
         android:src="@drawable/ic_estacionamiento"
         app:layout_anchor="@+id/relativeLayout"
-        app:layout_anchorGravity="center" />
+        app:layout_anchorGravity="center"
+        android:contentDescription="imagenDelLogoDeLaAplicacion" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
