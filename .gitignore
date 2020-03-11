@@ -11,3 +11,4 @@
 .idea/caches
 .idea/caches/
 *.ser
+/.idea/sonarlint

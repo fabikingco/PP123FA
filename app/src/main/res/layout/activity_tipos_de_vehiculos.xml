@@ -52,7 +52,7 @@
                 android:src="@drawable/ic_estacionamiento"
                 app:civ_shadow="true"
                 app:civ_shadow_radius="0"
-                app:civ_border="false" />
+                app:civ_border="false"/>
 
         </LinearLayout>
 
@@ -65,28 +65,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="10dp"
-            android:clipToPadding="false"
-            />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="@dimen/spacing_large" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:text="Añadir Nuevo" />
--
-            <Button
-            android:id="@+id/addnuevo"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:onClick="onclick"
-            android:drawableEnd="@drawable/ic_add_black_24dp"></Button>
-
-        </LinearLayout>
+            android:clipToPadding="false"/>
     </LinearLayout>
-
 </androidx.core.widget.NestedScrollView>

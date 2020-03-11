@@ -76,12 +76,27 @@
             android:layout_height="15dp"/>
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/precio"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Ingrese el precio"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="15dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
         <Button
             android:id="@+id/guardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Agregar Vehiculo"/>
+            android:text="Agregar Vehiculo"
+            android:onClick="guardar"/>
         </LinearLayout>
         <View
             android:layout_width="0dp"
@@ -98,7 +113,7 @@
         </LinearLayout>
         <View
             android:layout_width="0dp"
-            android:layout_height="10dp"/>
+            android:layout_height="15dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
@@ -107,6 +122,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Metodo de Cobro"
+                android:visibility="invisible"/>
+        </LinearLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="15dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <EditText
+                android:id="@+id/precio2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Ingrese precio"
                 android:visibility="invisible"/>
         </LinearLayout>
     </LinearLayout>

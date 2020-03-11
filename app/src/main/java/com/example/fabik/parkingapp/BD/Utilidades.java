@@ -51,16 +51,6 @@ public class Utilidades {
                     TIPOS_MODO + " TEXT," +
                     TIPOS_PRECIO + " TEXT)";
 
-
-   // public static final String InsertVehiculo = "INSERT INTO " + TABLA_TIPOS_VEHICULOS + " (" + TIPOS_NAME + ", " + TIPOS_IMG + ", " + TIPOS_MODO + ", " + TIPOS_PRECIO +
-   //         ") VALUES ('Automovil', " + R.drawable.coche_basic + ", 'HORA', '2000');";
-
-   // public static final String InsertMotoCicleta = "INSERT INTO " + TABLA_TIPOS_VEHICULOS + " (" + TIPOS_NAME + ", " + TIPOS_IMG + ", " + TIPOS_MODO + ", " + TIPOS_PRECIO +
-   //         ") VALUES ('Motocicleta', " + R.drawable.motocicleta_basic + ", 'HORA', '2000');";
-
-   // public static final String InsertBicicleta = "INSERT INTO " + TABLA_TIPOS_VEHICULOS + " (" + TIPOS_NAME + ", " + TIPOS_IMG + ", " + TIPOS_MODO + ", " + TIPOS_PRECIO +
-   //         ") VALUES ('Bicicleta', " + R.drawable.bicicleta_basic + ", 'HORA', '2000');";
-
     public static final String TABLE_COMERCIO = "comercio";
 
     public static final String comercio_id = "id";
