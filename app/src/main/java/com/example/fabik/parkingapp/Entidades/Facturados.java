@@ -10,8 +10,6 @@ public class Facturados implements Serializable{
     private String tipo;
     private Integer valor;
     private Integer minutos;
-    private String tiempo_total;
-    private int valor_min;
 
     public Facturados(Integer id, String placa, String fecha_ing, String fecha_sal, String tipo, Integer valor, Integer minutos) {
         this.id = id;
@@ -21,13 +19,6 @@ public class Facturados implements Serializable{
         this.tipo = tipo;
         this.valor = valor;
         this.minutos = minutos;
-    }
-
-    public Facturados(Integer id, String placa, String fecha_ing, String tipo) {
-        this.id = id;
-        this.placa = placa;
-        this.fecha_ing = fecha_ing;
-        this.tipo = tipo;
     }
 
     public Facturados(){
@@ -88,21 +79,5 @@ public class Facturados implements Serializable{
 
     public void setMinutos(Integer minutos) {
         this.minutos = minutos;
-    }
-
-    public String getTiempo_total() {
-        return tiempo_total;
-    }
-
-    public void setTiempo_total(String tiempo_total) {
-        this.tiempo_total = tiempo_total;
-    }
-
-    public int getValor_min() {
-        return valor_min;
-    }
-
-    public void setValor_min(int valor_min) {
-        this.valor_min = valor_min;
     }
 }

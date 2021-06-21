@@ -8,7 +8,6 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.widget.Toast;
 
-import com.example.fabik.parkingapp.Entidades.Facturados;
 import com.example.fabik.parkingapp.Global;
 import com.example.fabik.parkingapp.Printer.utils.LogUtil;
 //import com.fabianardila.wpossappsmartposterminal.Comun.Global;
@@ -199,7 +198,7 @@ public class PrintManager {;
         return ret;
     }
 
-    public int ImpresionTiqueteSalida(viewInterface listener, Facturados facturados) {
+    public int ImpresionTiqueteSalida(viewInterface listener) {
         int ret = 0;
         if (Build.MODEL.equals("i80")) {
             Printer2 print = Printer2.getInstance();
@@ -255,21 +254,21 @@ public class PrintManager {;
                 canvas.drawText(" ", paint);
                 setFontStyle(paint, 2, false);
                 canvas.setX(0);
-                printerLine = "Vehiculo de placa " + facturados.getPlaca();
+                printerLine = "Vehiculo de placa " + Global.Placa;
                 canvas.drawText(printerLine, paint);
                 setFontStyle(paint, 2, false);
                 canvas.setX(0);
-                printerLine = "Fecha de salida " + facturados.getFecha_sal();
+                printerLine = "Fecha de salida " + Global.FechaSalida;
                 canvas.drawText(printerLine, paint);
 
                 setFontStyle(paint, 3, false);
                 canvas.setX(0);
-                printerLine = "Valor a pagar " + facturados.getValor();
+                printerLine = "Valor a pagar " + Global.ValorAPagar;
                 canvas.drawText(printerLine, paint);
 
                 setFontStyle(paint, 3, false);
                 canvas.setX(0);
-                printerLine = "Tiempo: " + facturados.getMinutos();
+                printerLine = "Tiempo: " + Global.Minutos;
                 canvas.drawText(printerLine, paint);
 
                 printLine(paint, canvas);

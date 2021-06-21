@@ -2,11 +2,10 @@ package com.example.fabik.parkingapp;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fabik.parkingapp.BD_Utilidades.Utilidades;
 import com.example.fabik.parkingapp.Entidades.Facturados;
